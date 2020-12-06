@@ -116,7 +116,6 @@ const crearComida = (e, arguments) => {
     })
 }
 
-
 const getComidas = () => {
     return new Promise((resolve, reject) => {
         connectToServer()
@@ -130,7 +129,61 @@ const getComidas = () => {
     })
 }
 
+const eliminarComida = (e, arguments) => {
 
+    const eliminarComidaQuery = "DELETE FROM COMIDAS WHERE comidaId=@comidaId"
 
+    return new Promise((resolve, reject) => {
+        connectToServer()
+            .then(connection => {
+                let request = new Request(eliminarComidaQuery, (err, rowCount, rows) => {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        console.log(rowCount + ' row(s) returned')
+                        resolve("Se elimino la comida con exito")
+                        connection.close()
+                    }
+                })
+                request.addParameter("comidaId", TYPES.UniqueIdentifier, arguments?.comidaId)
+                connection.execSql(request);
+            })
+            .then(e => resolve("Se elimino con exito"))
+            .catch(e => reject(e))
+    });
+}
+
+const actualizarComida = (e, arguments) => {
+    const actualizarComidaQuery = "UPDATE COMIDAS SET nombre=@nombre, ingredientes=@ingredientes, calorias=@calorias, gramos=@gramos WHERE comidaId=@comidaId"
+
+    console.log(arguments)
+
+    return new Promise((resolve, reject) => {
+        connectToServer()
+            .then(connection => {
+                let request = new Request(actualizarComidaQuery, (err, rowCount, rows) => {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        console.log(rowCount + ' row(s) returned')
+                        resolve("Se elimino la comida con exito")
+                        connection.close()
+                    }
+                })
+                request.addParameter("comidaId", TYPES.UniqueIdentifier, arguments?.comidaId)
+                request.addParameter('nombre', TYPES.NVarChar, arguments?.nombre)
+                request.addParameter('ingredientes', TYPES.NVarChar, arguments?.ingredientes)
+                request.addParameter('calorias', TYPES.Int, arguments?.calorias)
+                request.addParameter('gramos', TYPES.Int, arguments?.gramos)
+
+                connection.execSql(request);
+            })
+            .then(e => resolve(e))
+            .catch(e => reject(e))
+    })
+}
+
+ipcMain.handle("ACTUALIZARCOMIDA", actualizarComida);
+ipcMain.handle("ELIMINARCOMIDA", eliminarComida);
 ipcMain.handle("CREARCOMIDA", crearComida);
 ipcMain.handle('GETCOMIDAS', getComidas);
