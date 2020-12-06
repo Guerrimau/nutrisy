@@ -32,9 +32,9 @@ const App = () => {
     // }
 
     useEffect( () => {
-        // ipc.invoke('GETCOMIDAS').then(items => {
-        //     console.log(items)
-        // })
+        ipc.invoke('GETCOMIDAS').then(items => {
+            console.log(items)
+        })
     },[])
 
     return (
