@@ -1,6 +1,7 @@
 const Connection = require("tedious").Connection
 const Request = require("tedious").Request
 const { ipcMain } = require('electron')
+const { TYPES } = require("tedious")
 
 /**
  * Read data from the database
@@ -57,7 +58,7 @@ const connectToServer = () => {
                 }
             },
             options: {
-                database: 'INSTITUTO',
+                database: 'NUTRISY',
                 instanceName: 'MSSQLSERVER',
 
                 // These two settings are really important to make successfull connection
@@ -89,11 +90,38 @@ const connectToServer = () => {
     })
 }
 
-const getStudents = () => {
+
+const crearComida = (e, arguments) => {
+    
+    const crearComidaQuery = "INSERT INTO COMIDAS (nombre, ingredientes,calorias,gramos) VALUES (@nombre,@ingredientes,@calorias,@gramos)"
+
     return new Promise((resolve, reject) => {
         connectToServer()
             .then(connection => {
-                let sqlStr = 'SELECT * FROM ALUMNOS'
+                let request = new Request(crearComidaQuery, (err, rowCount, rows) => {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        console.log(rowCount + ' row(s) returned')
+                        connection.close()
+                    }
+                })
+                request.addParameter('nombre', TYPES.NVarChar, arguments?.nombre)
+                request.addParameter('ingredientes', TYPES.NVarChar, arguments?.ingredientes)
+                request.addParameter('calorias', TYPES.Int, arguments?.calorias)
+                request.addParameter('gramos', TYPES.Int, arguments?.gramos)
+
+                connection.execSql(request);
+            }).catch(err => reject(err))
+    })
+}
+
+
+const getComidas = () => {
+    return new Promise((resolve, reject) => {
+        connectToServer()
+            .then(connection => {
+                let sqlStr = 'SELECT * FROM COMIDAS'
 
                 return readFromDb(connection, sqlStr)
             })
@@ -102,8 +130,7 @@ const getStudents = () => {
     })
 }
 
-const logInfo = (e, info) => {
-    console.log(info)
-}
 
-ipcMain.handle('loginfo', logInfo)
+
+ipcMain.handle("CREARCOMIDA", crearComida);
+ipcMain.handle('GETCOMIDAS', getComidas);

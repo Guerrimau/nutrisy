@@ -4,14 +4,21 @@ import { ipcRenderer as ipc } from 'electron'
 
 const App = () => {
 
-    // const getStudents = () => {
-    //     ipc.invoke('getstudents').then((items) => { 
-    //         console.log(items)
-    //     })
-    // }
+    const crearComida = () => {
+        const comida = {
+            nombre: 'Hot Cakes de Avena',
+            ingredientes: '350gr de avena, 1/2 litro de leche, 1 huevo',
+            calorias: 350,
+            gramos: 100
+        }
+        ipc.invoke('CREARCOMIDA', comida)
+    }
 
     useEffect( () => {
-        ipc.invoke('loginfo', "QUE PEDO CULEROS")
+        crearComida();
+        // ipc.invoke('GETCOMIDAS').then(items => {
+        //     console.log(items)
+        // })
     },[])
 
     return (
