@@ -1,14 +1,8 @@
 import React from 'react';
-import Routes from './components/Routes/Routes';
-
+import { AppRouter } from "./routes/AppRouter";
 
 const App = () => {
-
-    return (
-        <div> 
-            <Routes/>
-        </div>
-    )
+    return ( <AppRouter /> )
 }
 
 // Export the main component
