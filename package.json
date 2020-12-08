@@ -4,6 +4,8 @@
   "description": "",
   "main": "main.js",
   "dependencies": {
+    "@material-ui/core": "^4.11.2",
+    "@material-ui/icons": "^4.11.2",
     "async": "^3.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
