@@ -8,11 +8,16 @@ import {
 
 import { Navbar } from "../components/ui/Navbar";
 
-import { Home } from '../pages/Home';
+import { ComidasContextProvider } from "../context/comidas-context"
+
 import { Login } from '../pages/Login';
 import { Register } from '../pages/Register';
+import { Food } from '../pages/Food';
+
+
 
 export const AppRouter = () => {
+
     return (
         <div>
             <Router>
@@ -20,9 +25,10 @@ export const AppRouter = () => {
                     <Route exact path='/login' component={Login} />
                     <Route exact path='/register' component={Register} />
                     <Navbar>
-                        <Route exact path='/' component={Home} />
+                        <ComidasContextProvider>
+                            <Route exact path='/food' component={Food} />
+                        </ComidasContextProvider>
                     </Navbar>
-                    <Redirect to='/' />
                 </Switch>
             </Router>
         </div>

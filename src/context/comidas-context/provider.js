@@ -20,30 +20,12 @@ export const ComidasContextProvider = ({ children }) => {
     }
 
     const eliminarComida = (comida) => {
-        let comidaEliminadaId = comida.comidaId;
-        ipc.invoke("ELIMINARCOMIDA", comida).then( e => 
-            setComidas((prev) => (prev.filter(comida => comida.comidaId !== comidaEliminadaId)))
-        );
+        console.log(comida)
+        ipc.invoke("ELIMINARCOMIDA", comida).then( e => traerComidas());
     }
 
-    const actualizarComida = (nuevaComida) => {
-        ipc.invoke("ACTUALIZARCOMIDA", comida).then( e => 
-            setComidas((prev) =>(
-                prev.map(comida => {
-                    if(comida.comidaId === nuevaComida.comidaId ) {
-                        return {
-                            comidaId: nuevaComida.comidaId,
-                            nombre: nuevaComida.nombre,
-                            ingredientes: nuevaComida.ingredientes,
-                            calorias: nuevaComida.calorias,
-                            gramos: nuevaComida.gramos
-                        }
-                    } else {
-                        return comida
-                    }
-                })
-            ))
-        );
+    const actualizarComida = (comida) => {
+        ipc.invoke("ACTUALIZARCOMIDA", comida).then( e => traerComidas());
     }
 
     const traerComidas = () => {
@@ -57,7 +39,7 @@ export const ComidasContextProvider = ({ children }) => {
     },[])
 
     return (
-        <ComidasContext.Provider value={{ comidas, crearComida, eliminarComida, actualizarComida }}>
+        <ComidasContext.Provider value={{ comidas, crearComida, eliminarComida, actualizarComida, traerComidas }}>
             { children }
         </ComidasContext.Provider>
     );

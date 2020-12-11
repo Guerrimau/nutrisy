@@ -112,6 +112,8 @@ const crearComida = (e, arguments) => {
                 request.addParameter('gramos', TYPES.Int, arguments?.gramos)
 
                 connection.execSql(request);
+
+                resolve(true);
             }).catch(err => reject(err))
     })
 }
