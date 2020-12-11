@@ -11,8 +11,6 @@ import { ComidasContext } from '../../context/comidas-context';
 
 export function EditFoodDialog({ open, onClose, comida }) {
 
-    console.log(comida)
-
     const { actualizarComida } = useContext(ComidasContext);
 
     const [ formValues , handleInputChange, setFormValues ] = useForm(comida);

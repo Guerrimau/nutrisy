@@ -20,7 +20,6 @@ export const ComidasContextProvider = ({ children }) => {
     }
 
     const eliminarComida = (comida) => {
-        console.log(comida)
         ipc.invoke("ELIMINARCOMIDA", comida).then( e => traerComidas());
     }
 

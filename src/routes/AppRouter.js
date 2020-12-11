@@ -19,8 +19,8 @@ import { Food } from '../pages/Food';
 export const AppRouter = () => {
 
     return (
-        <div>
-            <Router>
+        <Router>
+            <div>
                 <Switch>
                     <Route exact path='/login' component={Login} />
                     <Route exact path='/register' component={Register} />
@@ -29,8 +29,9 @@ export const AppRouter = () => {
                             <Route exact path='/food' component={Food} />
                         </ComidasContextProvider>
                     </Navbar>
+                    <Redirect to ="/login" />
                 </Switch>
-            </Router>
-        </div>
+            </div>
+        </Router>
     )
 }
