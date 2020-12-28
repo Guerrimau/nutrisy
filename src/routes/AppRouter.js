@@ -19,19 +19,19 @@ import { Food } from '../pages/Food';
 export const AppRouter = () => {
 
     return (
-        <Router>
-            <div>
-                <Switch>
-                    <Route exact path='/login' component={Login} />
-                    <Route exact path='/register' component={Register} />
-                    <Navbar>
-                        <ComidasContextProvider>
+        <ComidasContextProvider>
+            <Router>
+                <div>
+                    <Switch>
+                        <Route exact path='/login' component={Login} />
+                        <Route exact path='/register' component={Register} />
+                        <Navbar>
                             <Route exact path='/food' component={Food} />
-                        </ComidasContextProvider>
-                    </Navbar>
-                    <Redirect to ="/login" />
-                </Switch>
-            </div>
-        </Router>
+                        </Navbar>
+                        <Redirect to ="/login" />
+                    </Switch>
+                </div>
+            </Router>
+        </ComidasContextProvider>
     )
 }
