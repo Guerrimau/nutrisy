@@ -22,8 +22,14 @@ export const PacientesContextProvider = ({ children }) => {
         })
     }
 
+    const actualizarPaciente = (paciente) => {
+        ipc.invoke("ACTUALIZARPACIENTE", paciente).then(e => {
+            traerPacientes();
+        })
+    }
+
     return(
-        <PacientesContext.Provider value={{ pacientes, traerPacientes, crearPaciente }}>
+        <PacientesContext.Provider value={{ pacientes, traerPacientes, crearPaciente, actualizarPaciente }}>
             {children}
         </PacientesContext.Provider>
     );

@@ -161,8 +161,6 @@ const eliminarComida = (e, arguments) => {
 const actualizarComida = (e, arguments) => {
     const actualizarComidaQuery = "UPDATE COMIDAS SET nombre=@nombre, ingredientes=@ingredientes, calorias=@calorias, gramos=@gramos WHERE comidaId=@comidaId"
 
-    console.log(arguments)
-
     return new Promise((resolve, reject) => {
         connectToServer()
             .then(connection => {
@@ -262,10 +260,42 @@ const crearPaciente = (e, arguments) => {
                 connection.execSql(request);
             }).catch(err => reject(err))
     })
-
-
-    
 }
+
+const actualizarPaciente = (e, arguments) => {
+    const actualizarPacienteQuery = "UPDATE PACIENTES SET nombreCompleto=@nombreCompleto, email=@email, sexo=@sexo, peso=@peso, altura=@altura, imc=@imc, calorias=@calorias WHERE pacienteId=@pacienteId";
+
+    return new Promise((resolve, reject) => {
+        connectToServer()
+            .then(connection => {
+                let request = new Request(actualizarPacienteQuery, (err, rowCount, rows) => {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        console.log(rowCount + ' row(s) returned')
+                        resolve("Se actualizo con exito")
+                        connection.close()
+                    }
+                })
+                request.addParameter("pacienteId", TYPES.UniqueIdentifier, arguments?.pacienteId)
+                request.addParameter("nombreCompleto", TYPES.VarChar, arguments?.nombreCompleto)
+                request.addParameter("email", TYPES.VarChar, arguments?.email)
+                request.addParameter("sexo", TYPES.VarChar, arguments?.sexo)
+                request.addParameter("peso", TYPES.Float, arguments?.peso)
+                request.addParameter("altura", TYPES.Int, arguments?.altura)
+                request.addParameter("imc", TYPES.Float, arguments?.imc)
+                request.addParameter("calorias", TYPES.Int, arguments?.calorias)
+
+                console.log(request);
+                connection.execSql(request);
+            })
+            .then(e => resolve(e))
+            .catch(e => reject(e))
+    })
+
+}
+
 
 ipcMain.handle("TRAERPACIENTES", traerPacientes);
 ipcMain.handle("CREARPACIENTE", crearPaciente);
+ipcMain.handle("ACTUALIZARPACIENTE", actualizarPaciente);
