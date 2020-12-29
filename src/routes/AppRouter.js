@@ -9,10 +9,12 @@ import {
 import { Navbar } from "../components/ui/Navbar";
 
 import { ComidasContextProvider } from "../context/comidas-context"
+import { PacientesContextProvider } from "../context/pacientes-context";
 
 import { Login } from '../pages/Login';
 import { Register } from '../pages/Register';
 import { Food } from '../pages/Food';
+import { Patients } from "../pages/Patients";
 
 
 
@@ -28,6 +30,9 @@ export const AppRouter = () => {
                             <ComidasContextProvider>
                                 <Route exact path='/food' component={Food} />
                             </ComidasContextProvider>
+                            <PacientesContextProvider>
+                                <Route exact path='/patients' component={Patients} />
+                            </PacientesContextProvider>
                         </Navbar>
                         <Redirect to ="/login" />
                     </Switch>

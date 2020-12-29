@@ -91,6 +91,9 @@ const connectToServer = () => {
 }
 
 
+
+//! FUNCIONES DE COMIDAS
+
 const crearComida = (e, arguments) => {
     
     const crearComidaQuery = "INSERT INTO COMIDAS (nombre, ingredientes,calorias,gramos) VALUES (@nombre,@ingredientes,@calorias,@gramos)"
@@ -189,3 +192,58 @@ ipcMain.handle("ACTUALIZARCOMIDA", actualizarComida);
 ipcMain.handle("ELIMINARCOMIDA", eliminarComida);
 ipcMain.handle("CREARCOMIDA", crearComida);
 ipcMain.handle('GETCOMIDAS', getComidas);
+
+
+
+//! FUNCIONES DE PACIENTES
+
+const traerPacientes = (e, nutriologoId) => {
+    
+    const traerPacientesQuery = "SELECT * FROM PACIENTES WHERE nutriologoId=@nutriologoId"
+
+    return new Promise((resolve, reject) => {
+        connectToServer()
+            .then(connection => {
+                
+                let items = [];
+
+                let request = new Request(traerPacientesQuery, (err, rowCount, rows) => {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        console.log(rowCount + ' row(s) returned')
+                        resolve(items)
+                        connection.close()
+                    }
+                });
+                request.addParameter("nutriologoId", TYPES.UniqueIdentifier, nutriologoId)
+
+                request.on('doneInProc', (rowCount, more, rows) => {
+                    items = []
+                    rows.map(row => {
+                        let result = {}
+                        row.map(child => {
+                            result[child.metadata.colName] = child.value
+                        })
+                        items.push(result);
+                    })
+                })
+
+                connection.execSql(request);
+            })
+            .catch(e => reject(e))
+    });
+}
+
+// const crearPaciente = (e, arguments) => {
+//     const crearPacienteQuery = ""
+//     request.addParameter("nombreCompleto", TYPES.VarChar, arguments?.nombreCompleto)
+//     request.addParameter("email", TYPES.VarChar, arguments?.email)
+//     request.addParameter("sexo", TYPES.VarChar, arguments?.sexo)
+//     request.addParameter("peso", TYPES.Float, arguments?.peso)
+//     request.addParameter("altura", TYPES.Int, arguments?.altura)
+//     request.addParameter("imc", TYPES.Float, arguments?.imc)
+//     request.addParameter("calorias", TYPES.Int, arguments?.calorias)
+// }
+
+ipcMain.handle("TRAERPACIENTES", traerPacientes);
