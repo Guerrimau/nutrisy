@@ -235,15 +235,37 @@ const traerPacientes = (e, nutriologoId) => {
     });
 }
 
-// const crearPaciente = (e, arguments) => {
-//     const crearPacienteQuery = ""
-//     request.addParameter("nombreCompleto", TYPES.VarChar, arguments?.nombreCompleto)
-//     request.addParameter("email", TYPES.VarChar, arguments?.email)
-//     request.addParameter("sexo", TYPES.VarChar, arguments?.sexo)
-//     request.addParameter("peso", TYPES.Float, arguments?.peso)
-//     request.addParameter("altura", TYPES.Int, arguments?.altura)
-//     request.addParameter("imc", TYPES.Float, arguments?.imc)
-//     request.addParameter("calorias", TYPES.Int, arguments?.calorias)
-// }
+const crearPaciente = (e, arguments) => {
+    const crearPacienteQuery = "INSERT INTO PACIENTES (nutriologoId, nombreCompleto, email, sexo, peso, altura, imc, calorias ) VALUES (@nutriologoId, @nombreCompleto, @email, @sexo, @peso, @altura, @imc, @calorias)";
+    
+    return new Promise((resolve, reject) => {
+        connectToServer()
+            .then(connection => {
+                let request = new Request(crearPacienteQuery, (err, rowCount, rows) => {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        console.log(rowCount + ' row(s) returned')
+                        resolve("Se ha creado un nuevo paciente")
+                        connection.close()
+                    }
+                })
+                request.addParameter("nutriologoId", TYPES.UniqueIdentifier, arguments?.nutriologoId)
+                request.addParameter("nombreCompleto", TYPES.VarChar, arguments?.nombreCompleto)
+                request.addParameter("email", TYPES.VarChar, arguments?.email)
+                request.addParameter("sexo", TYPES.VarChar, arguments?.sexo)
+                request.addParameter("peso", TYPES.Float, arguments?.peso)
+                request.addParameter("altura", TYPES.Int, arguments?.altura)
+                request.addParameter("imc", TYPES.Float, arguments?.imc)
+                request.addParameter("calorias", TYPES.Int, arguments?.calorias)
+
+                connection.execSql(request);
+            }).catch(err => reject(err))
+    })
+
+
+    
+}
 
 ipcMain.handle("TRAERPACIENTES", traerPacientes);
+ipcMain.handle("CREARPACIENTE", crearPaciente);

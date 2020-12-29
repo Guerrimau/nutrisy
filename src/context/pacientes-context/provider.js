@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { PacientesContext } from "./context";
 import { ipcRenderer as ipc } from 'electron';
 
@@ -16,12 +16,14 @@ export const PacientesContextProvider = ({ children }) => {
         });
     }
 
-    useEffect(() => {
-        traerPacientes();
-    },[])
+    const crearPaciente = (paciente) => {
+        ipc.invoke("CREARPACIENTE", paciente).then(e => {
+            traerPacientes();
+        })
+    }
 
     return(
-        <PacientesContext.Provider value={{ pacientes }}>
+        <PacientesContext.Provider value={{ pacientes, traerPacientes, crearPaciente }}>
             {children}
         </PacientesContext.Provider>
     );
