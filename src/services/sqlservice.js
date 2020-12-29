@@ -295,7 +295,31 @@ const actualizarPaciente = (e, arguments) => {
 
 }
 
+const eliminarPaciente = (e, arguments) => {
+    const eliminarPacienteQuery = "DELETE FROM PACIENTES WHERE pacienteId=@pacienteId"
+
+    return new Promise((resolve, reject) => {
+        connectToServer()
+            .then(connection => {
+                let request = new Request(eliminarPacienteQuery, (err, rowCount, rows) => {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        console.log(rowCount + ' row(s) returned')
+                        resolve("Se elimino el paciente con exito")
+                        connection.close()
+                    }
+                })
+                request.addParameter("pacienteId", TYPES.UniqueIdentifier, arguments?.pacienteId)
+                connection.execSql(request);
+            })
+            .then(e => resolve("Se elimino con exito"))
+            .catch(e => reject(e))
+    });
+} 
+
 
 ipcMain.handle("TRAERPACIENTES", traerPacientes);
 ipcMain.handle("CREARPACIENTE", crearPaciente);
 ipcMain.handle("ACTUALIZARPACIENTE", actualizarPaciente);
+ipcMain.handle("ELIMINARPACIENTE", eliminarPaciente);
