@@ -18,6 +18,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LocalDiningIcon from '@material-ui/icons/LocalDining';
+import PeopleIcon from '@material-ui/icons/People';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -216,7 +217,7 @@ export const Navbar = ({ children }) => {
                 <Divider />
                 {openDrawer ?
                     <ListSubheader component="div" id="nested-list-subheader">
-                        Menu
+                        Menú
                     </ListSubheader>
                     : null}
                 <ListItem button
@@ -232,6 +233,13 @@ export const Navbar = ({ children }) => {
                         <LocalDiningIcon />
                     </ListItemIcon>
                     <ListItemText primary="Dietas" />
+                </ListItem>
+                <ListItem button
+                    onClick={ () => history.push('/patients') }>
+                    <ListItemIcon>
+                        <PeopleIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Pacientes" />
                 </ListItem>
             </Drawer>
             <main className={classes.content}>

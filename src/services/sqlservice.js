@@ -54,7 +54,7 @@ const connectToServer = () => {
                 type: 'default',
                 options: {
                     userName: 'sa',
-                    password: 'administrador123'
+                    password: 'Administrador123'
                 }
             },
             options: {
