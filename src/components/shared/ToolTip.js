@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
     fab: {
         position: 'fixed',
         bottom: theme.spacing(2),
-        right: theme.spacing(4),
+        right: theme.spacing(2),
         backgroundColor: '#3bb33d',
         '&:hover': {
             backgroundColor: '#1eb020',

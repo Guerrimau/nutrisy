@@ -16,7 +16,8 @@ export const PacientesContextProvider = ({ children }) => {
         });
     }
 
-    const crearPaciente = (paciente) => {
+    const crearPaciente = (paciente = {}) => {
+        paciente.nutriologoId = nutriologo.nutriologoId
         ipc.invoke("CREARPACIENTE", paciente).then(e => {
             traerPacientes();
         })

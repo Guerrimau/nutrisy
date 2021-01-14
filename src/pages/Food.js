@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { FoodCard } from '../components/food/FoodCard'
 import { NewFoodDialog } from '../components/food/newFoodDialog';
 import { EditFoodDialog } from '../components/food/editFoodDialog';
-import ToolTip from '../components/food/ToolTip';
+import ToolTip from '../components/shared/ToolTip';
 import { ComidasContext } from '../context/comidas-context';
 
 const useStyles = makeStyles((theme) => ({
