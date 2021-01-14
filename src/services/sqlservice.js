@@ -96,7 +96,7 @@ const connectToServer = () => {
 
 const crearComida = (e, arguments) => {
     
-    const crearComidaQuery = "INSERT INTO COMIDAS (nombre, ingredientes,calorias,gramos) VALUES (@nombre,@ingredientes,@calorias,@gramos)"
+    const crearComidaQuery = "INSERT INTO COMIDAS (imagen, nombre, ingredientes) VALUES (@imagen, @nombre,@ingredientes)"
 
     return new Promise((resolve, reject) => {
         connectToServer()
@@ -111,8 +111,6 @@ const crearComida = (e, arguments) => {
                 })
                 request.addParameter('nombre', TYPES.NVarChar, arguments?.nombre)
                 request.addParameter('ingredientes', TYPES.NVarChar, arguments?.ingredientes)
-                request.addParameter('calorias', TYPES.Int, arguments?.calorias)
-                request.addParameter('gramos', TYPES.Int, arguments?.gramos)
 
                 connection.execSql(request);
 

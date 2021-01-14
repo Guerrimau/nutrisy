@@ -16,8 +16,6 @@ export function NewFoodDialog({ open, onClose }) {
     const [ formValues , handleInputChange ] = useForm({
         nombre: '',
         ingredientes: '',
-        calorias: '',
-        gramos: '',
     });
 
     const handlePostFood = () => {
@@ -43,24 +41,6 @@ export function NewFoodDialog({ open, onClose }) {
                     margin="dense"
                     id="ingredientes"
                     label="Ingredientes"
-                    type="text"
-                    fullWidth
-                    onChange={handleInputChange}
-                />
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    id="calorias"
-                    label="Calorias"
-                    type="text"
-                    fullWidth
-                    onChange={handleInputChange}
-                />
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    id="gramos"
-                    label="Gramos"
                     type="text"
                     fullWidth
                     onChange={handleInputChange}
