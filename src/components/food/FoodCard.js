@@ -65,14 +65,9 @@ export const FoodCard = (props) => {
               
         />
         <CardContent>
+          <h3>Ingredientes</h3>
           <Typography variant="body2" color="textSecondary" component="p">
             {props.description}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Calorias: {props.calories}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Gramos: {props.grams}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>

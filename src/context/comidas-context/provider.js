@@ -25,6 +25,7 @@ export const ComidasContextProvider = ({ children }) => {
     }
 
     const actualizarComida = (comida) => {
+        console.log(comida);
         ipc.invoke("ACTUALIZARCOMIDA", comida).then( e => traerComidas());
     }
 

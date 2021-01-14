@@ -111,6 +111,7 @@ const crearComida = (e, arguments) => {
                 })
                 request.addParameter('nombre', TYPES.NVarChar, arguments?.nombre)
                 request.addParameter('ingredientes', TYPES.NVarChar, arguments?.ingredientes)
+                request.addParameter('imagen', TYPES.NVarChar, arguments?.imagen)
 
                 connection.execSql(request);
 
@@ -157,7 +158,7 @@ const eliminarComida = (e, arguments) => {
 }
 
 const actualizarComida = (e, arguments) => {
-    const actualizarComidaQuery = "UPDATE COMIDAS SET nombre=@nombre, ingredientes=@ingredientes, calorias=@calorias, gramos=@gramos WHERE comidaId=@comidaId"
+    const actualizarComidaQuery = "UPDATE COMIDAS SET nombre=@nombre, ingredientes=@ingredientes, imagen=@imagen WHERE comidaId=@comidaId"
 
     return new Promise((resolve, reject) => {
         connectToServer()
@@ -174,8 +175,7 @@ const actualizarComida = (e, arguments) => {
                 request.addParameter("comidaId", TYPES.UniqueIdentifier, arguments?.comidaId)
                 request.addParameter('nombre', TYPES.NVarChar, arguments?.nombre)
                 request.addParameter('ingredientes', TYPES.NVarChar, arguments?.ingredientes)
-                request.addParameter('calorias', TYPES.Int, arguments?.calorias)
-                request.addParameter('gramos', TYPES.Int, arguments?.gramos)
+                request.addParameter('imagen', TYPES.NVarChar, arguments?.imagen)
 
                 connection.execSql(request);
             })

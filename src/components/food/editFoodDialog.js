@@ -44,26 +44,6 @@ export function EditFoodDialog({ open, onClose, comida }) {
                     onChange={handleInputChange}
                     value={formValues.ingredientes}
                 />
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    id="calorias"
-                    label="Calorias"
-                    type="text"
-                    fullWidth
-                    onChange={handleInputChange}
-                    value={formValues.calorias}
-                />
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    id="gramos"
-                    label="Gramos"
-                    type="text"
-                    fullWidth
-                    onChange={handleInputChange}
-                    value={formValues.gramos}
-                />
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose} color="primary">
