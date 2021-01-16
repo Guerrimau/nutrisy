@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { ComidasContext } from "./context";
 import { ipcRenderer as ipc } from 'electron'
+import { ComidasContext } from "./context";
 
 //! Estructura del objeto comida
 // const comida = {

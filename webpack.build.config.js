@@ -52,7 +52,9 @@ module.exports = {
       }
     ]
   },
-  entry: './src/index.tsx',
+  entry: {
+    index: ['babel-polyfill','./src/index.tsx']
+  }, 
   resolve: {
     extensions: ['.js', 'jsx', '.ts', '.tsx'],
     modules: ['src', 'node_modules']

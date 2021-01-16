@@ -32,12 +32,7 @@ export const Food = () => {
 
     return (
         <div>
-            <Container>
-                <br />
-                <Typography variant='h3' align='center'>
-                    Comidas
-                </Typography>
-            </Container>
+            <h1>Comidas</h1>
             <br />
             <br />
             <Container>
