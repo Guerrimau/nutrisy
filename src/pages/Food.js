@@ -33,8 +33,6 @@ export const Food = () => {
     return (
         <div>
             <h1>Comidas</h1>
-            <br />
-            <br />
             <Container>
                 <Grid container direction='row' className={classes.root}>
                     {
