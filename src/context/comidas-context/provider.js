@@ -16,7 +16,6 @@ export const ComidasContextProvider = ({ children }) => {
     const [comidas, setComidas] = useState([])
 
     const crearComida = (comida) => {
-        console.log(comida)
         ipc.invoke('CREARCOMIDA', comida).then( e => traerComidas());
     }
 
