@@ -316,8 +316,129 @@ const eliminarPaciente = (e, arguments) => {
     });
 } 
 
-
 ipcMain.handle("TRAERPACIENTES", traerPacientes);
 ipcMain.handle("CREARPACIENTE", crearPaciente);
 ipcMain.handle("ACTUALIZARPACIENTE", actualizarPaciente);
 ipcMain.handle("ELIMINARPACIENTE", eliminarPaciente);
+
+
+
+//! Funciones de Dietas
+const traerDietas= (e, nutriologoId) => {
+    
+    const traerDietasQuery = "SELECT * FROM DIETAS WHERE nutriologoId=@nutriologoId"
+
+    return new Promise((resolve, reject) => {
+        connectToServer()
+            .then(connection => {
+                
+                let items = [];
+
+                let request = new Request(traerDietasQuery, (err, rowCount, rows) => {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        console.log(rowCount + ' row(s) returned')
+                        resolve(items)
+                        connection.close()
+                    }
+                });
+                request.addParameter("nutriologoId", TYPES.UniqueIdentifier, nutriologoId)
+
+                request.on('doneInProc', (rowCount, more, rows) => {
+                    items = []
+                    rows.map(row => {
+                        let result = {}
+                        row.map(child => {
+                            result[child.metadata.colName] = child.value
+                        })
+                        items.push(result);
+                    })
+                })
+
+                connection.execSql(request);
+            })
+            .catch(e => reject(e))
+    });
+}
+
+const crearDieta = (e, arguments) => {
+    const crearDietaQuery = "INSERT INTO DIETAS (nutriologoId, pacienteId, nombreDieta, fechaInicio) VALUES (@nutriologoId, @pacienteId, @nombreDieta, @fechaInicio)";
+    
+    return new Promise((resolve, reject) => {
+        connectToServer()
+            .then(connection => {
+                let request = new Request(crearDietaQuery, (err, rowCount, rows) => {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        console.log(rowCount + ' row(s) returned')
+                        resolve("Se ha creado un nuevo paciente")
+                        connection.close()
+                    }
+                })
+                request.addParameter("nutriologoId", TYPES.UniqueIdentifier, arguments?.nutriologoId)
+                request.addParameter("pacienteId", TYPES.UniqueIdentifier, arguments?.pacienteId)
+                request.addParameter("nombreDieta", TYPES.VarChar, arguments?.nombreDieta)
+                request.addParameter("fechaInicio", TYPES.Date, arguments?.fechaInicio)
+
+                connection.execSql(request);
+            }).catch(err => reject(err))
+    })
+}
+
+const actualizarDieta = (e, arguments) => {
+    const actualizarDietaQuery = "UPDATE DIETAS SET nutriologoId=@nutriologoId, pacienteId=@pacienteId, nombreDieta=@nombreDieta, fechaInicio=@fechaInicio WHERE dietaId=@dietaId";
+
+    return new Promise((resolve, reject) => {
+        connectToServer()
+            .then(connection => {
+                let request = new Request(actualizarDietaQuery, (err, rowCount, rows) => {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        console.log(rowCount + ' row(s) returned')
+                        resolve("Se actualizo con exito")
+                        connection.close()
+                    }
+                })
+                request.addParameter("nutriologoId", TYPES.UniqueIdentifier, arguments?.nutriologoId)
+                request.addParameter("pacienteId", TYPES.UniqueIdentifier, arguments?.pacienteId)
+                request.addParameter("nombreDieta", TYPES.VarChar, arguments?.nombreDieta)
+                request.addParameter("fechaInicio", TYPES.Date, arguments?.fechaInicio)
+
+                connection.execSql(request);
+            })
+            .then(e => resolve(e))
+            .catch(e => reject(e))
+    })
+
+}
+
+const eliminarDieta = (e, arguments) => {
+    const eliminarDietaQuery = "DELETE FROM DIETAS WHERE dietaId=@dietaId"
+
+    return new Promise((resolve, reject) => {
+        connectToServer()
+            .then(connection => {
+                let request = new Request(eliminarDietaQuery, (err, rowCount, rows) => {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        console.log(rowCount + ' row(s) returned')
+                        resolve("Se elimino el paciente con exito")
+                        connection.close()
+                    }
+                })
+                request.addParameter("dietaId", TYPES.UniqueIdentifier, arguments?.dietaId)
+                connection.execSql(request);
+            })
+            .then(e => resolve("Se elimino con exito"))
+            .catch(e => reject(e))
+    });
+} 
+
+ipcMain.handle("TRAERDIETAS", traerDietas);
+ipcMain.handle("CREARDIETA", crearDieta);
+ipcMain.handle("ACTUALIZARDIETA", actualizarDieta);
+ipcMain.handle("ELIMINARDIETA", eliminarDieta);
