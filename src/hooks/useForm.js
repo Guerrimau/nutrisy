@@ -5,10 +5,9 @@ export const useForm = ( initialState = {} ) => {
     const [ values, setValues ] = useState( initialState );
 
     const handleInputChange = ({ target }) => {
-        
         setValues({
             ...values, 
-            [ target.id ]: target.value
+            [ target.id || target.name ]: target.value
         });
 
     }

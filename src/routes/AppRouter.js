@@ -10,11 +10,13 @@ import { Navbar } from "../components/ui/Navbar";
 
 import { ComidasContextProvider } from "../context/comidas-context"
 import { PacientesContextProvider } from "../context/pacientes-context";
+import { DietasContextProvider } from "../context/dietas-context";
 
 import { Login } from '../pages/Login';
 import { Register } from '../pages/Register';
 import { Food } from '../pages/Food';
 import { Patients } from "../pages/Patients";
+import { Diets } from "../pages/Diets";
 
 
 
@@ -33,6 +35,9 @@ export const AppRouter = () => {
                             <PacientesContextProvider>
                                 <Route exact path='/patients' component={Patients} />
                             </PacientesContextProvider>
+                            <DietasContextProvider>
+                                <Route exact path='/diet' component={Diets}/>
+                            </DietasContextProvider>
                         </Navbar>
                         <Redirect to ="/login" />
                     </Switch>

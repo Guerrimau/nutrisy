@@ -46,7 +46,6 @@ export const FoodCard = (props) => {
   const [dialog, setDialog] = useState(false);
  
   const comida = props?.comida;
-  console.log(comida);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);

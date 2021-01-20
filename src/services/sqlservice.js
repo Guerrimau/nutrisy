@@ -326,7 +326,7 @@ ipcMain.handle("ELIMINARPACIENTE", eliminarPaciente);
 //! Funciones de Dietas
 const traerDietas= (e, nutriologoId) => {
     
-    const traerDietasQuery = "SELECT * FROM DIETAS WHERE nutriologoId=@nutriologoId"
+    const traerDietasQuery = "SELECT dietaId, DIETAS.nutriologoId, DIETAS.pacienteId, nombreCompleto, nombreDieta, fechaInicio FROM DIETAS, PACIENTES WHERE DIETAS.nutriologoId=@nutriologoId AND DIETAS.pacienteId = PACIENTES.pacienteId"
 
     return new Promise((resolve, reject) => {
         connectToServer()
