@@ -11,13 +11,14 @@ import { Navbar } from "../components/ui/Navbar";
 import { ComidasContextProvider } from "../context/comidas-context"
 import { PacientesContextProvider } from "../context/pacientes-context";
 import { DietasContextProvider } from "../context/dietas-context";
+import { DetallesContextProvider } from "../context/details-content";
 
 import { Login } from '../pages/Login';
 import { Register } from '../pages/Register';
 import { Food } from '../pages/Food';
 import { Patients } from "../pages/Patients";
 import { Diets } from "../pages/Diets";
-
+import { DietDetails } from "../pages/DietDetails";
 
 
 export const AppRouter = () => {
@@ -38,6 +39,9 @@ export const AppRouter = () => {
                             <DietasContextProvider>
                                 <Route exact path='/diet' component={Diets}/>
                             </DietasContextProvider>
+                            <DetallesContextProvider>
+                                <Route exact path='/details' component={DietDetails} />
+                            </DetallesContextProvider>
                         </Navbar>
                         <Redirect to ="/login" />
                     </Switch>

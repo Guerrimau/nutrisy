@@ -11,8 +11,6 @@ import Grid from '@material-ui/core/Grid';
 import Person  from '@material-ui/icons/Person';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Fondo from '../img/loginBackground.jpg'
-
 
 
 function Copyright() {
@@ -30,7 +28,7 @@ const useStyles = makeStyles(theme => ({
         height: '100vh',
     },
     image: {
-        backgroundImage: 'url(' + Fondo + ')',
+        backgroundImage: 'url(https://stmovemadrid.com/wp-content/uploads/2020/03/nutrici%C3%B3n.jpg)',
         backgroundRepeat: 'no-repeat',
         backgroundColor:
             theme.palette.type === 'dark' ? theme.palette.grey[900] : theme.palette.grey[50],
@@ -119,7 +117,6 @@ export const Login = () => {
                         >
                             Sign In
                         </Button>
-                        <Link href="/register">Registrarse</Link>
                         <Box mt={5}>
                             <Copyright />
                         </Box>

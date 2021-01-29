@@ -449,7 +449,7 @@ ipcMain.handle("ELIMINARDIETA", eliminarDieta);
 
 const traerDiaDietas= (e, arguments) => {
     
-    const traerDiaDietasQuery = "SELECT * FROM DIADIETA WHERE dietaId=@dietaId"
+    const traerDiaDietasQuery = "SELECT imagen, nombre, ingredientes, diaDietaId, dietaId, COMIDAS.comidaId, ordenDia, ordenComida, gramos, calorias from COMIDAS, DIADIETA WHERE DIADIETA.dietaId=@dietaId AND DIADIETA.comidaId=COMIDAS.comidaId"
 
     return new Promise((resolve, reject) => {
         connectToServer()

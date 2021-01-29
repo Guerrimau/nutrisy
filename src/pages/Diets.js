@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react'
+import { useHistory } from "react-router-dom";
 import { TableContainer, Typography, Button, TextField, IconButton } from '@material-ui/core';
 import {
     Edit,
@@ -20,6 +21,8 @@ export const Diets = () => {
     const [addDialog, setAddDialog] = useState(false);
     const [editDialog, setEditDialog] = useState(false);
 
+    const history = useHistory();
+
     const { dietas, traerDietas, eliminarDieta } = useContext(DietasContext);
 
     useEffect(() => {
@@ -33,6 +36,10 @@ export const Diets = () => {
     const handleEditDialogClick = (diet) => {
         setSelectedDiet(diet)
         setEditDialog(!editDialog);
+    }
+
+    const handleDietDetailsClick = (diet) => {
+        history.push({ pathname: '/details', state: diet });
     }
 
     return (
@@ -63,7 +70,9 @@ export const Diets = () => {
                                         {item.fechaInicio.toLocaleDateString()}
                                     </TableCell>
                                     <TableCell>
-                                        <Button style={{backgroundColor: "green", color: "white"}}>Comidas</Button>
+                                        <Button
+                                            style={{backgroundColor: "green", color: "white"}}
+                                            onClick={() => handleDietDetailsClick(item)}>Comidas</Button>
                                     </TableCell>
                                     <TableCell>
                                         <IconButton

@@ -1,9 +1,12 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react'
-import { TableContainer, Typography, Button, TextField, IconButton } from '@material-ui/core';
+import { TableContainer, Typography, Button, TextField, IconButton, Fab } from '@material-ui/core';
 import {
     Edit,
-    Delete
+    Delete,
+    InsertDriveFile
 } from "@material-ui/icons";
+import XLSX from "xlsx";
+import FileSaver from "file-saver";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -29,7 +32,7 @@ import { EditPatientDialog } from "../components/patients/editPatientDialog";
 // }
 
 export const Patients = () => {
-    
+
     const [selectedPatient, setSelectedPatient] = useState({});
     const [addDialog, setAddDialog] = useState(false);
     const [editDialog, setEditDialog] = useState(false);
@@ -43,10 +46,33 @@ export const Patients = () => {
     const handleAddDialogClick = () => {
         setAddDialog(!addDialog);
     }
-    
+
     const handleEditDialogClick = (patient) => {
         setSelectedPatient(patient)
         setEditDialog(!editDialog);
+    }
+
+    function s2ab(s) {
+        var buf = new ArrayBuffer(s.length); //convert s to arrayBuffer
+        var view = new Uint8Array(buf);  //create uint8array as viewer
+        for (var i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF; //convert to octet
+        return buf;
+    }
+
+    const handleDescargarPacientes = () => {
+        var wb = XLSX.utils.book_new();
+        wb.Props = {
+            Title: "Pacientes",
+            Subject: "Nutriologo",
+            Author: "",
+            CreatedDate: new Date().getFullYear()
+        }
+        wb.SheetNames.push("Pacientes Enero")
+        var ws_data = pacientes;
+        var ws = XLSX.utils.json_to_sheet(ws_data);
+        wb.Sheets["Pacientes Enero"] = ws
+        var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' })
+        FileSaver.saveAs(new Blob([s2ab(wbout)], {type: "application/octet-stream"}), 'pacientes.xlsx')
     }
 
     return (
@@ -108,6 +134,11 @@ export const Patients = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Fab
+                onClick={handleDescargarPacientes} variant="extended" style={{ backgroundColor: '#3bb33d', color: "white", position: "fixed", left: "105px", bottom: "15px" }}>
+                Descargar Pacientes
+                <InsertDriveFile />
+            </Fab>
             <ToolTip onOpen={handleAddDialogClick} />
             <NewPatientDialog open={addDialog} onClose={handleAddDialogClick} />
             <EditPatientDialog open={editDialog} onClose={handleEditDialogClick} paciente={selectedPatient} />

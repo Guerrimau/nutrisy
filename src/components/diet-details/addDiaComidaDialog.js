@@ -9,51 +9,65 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { DietasContext } from '../../context/dietas-context';
+import { ComidasContext } from '../../context/comidas-context';
+import { DetallesContext } from '../../context/details-content';
 
-export function NewDietDialog({ open, onClose }) {
+export function AddDiaComidaDialog({ open, onClose, orden, dietaId }) {
 
-    const { crearDieta, pacientes = [], traerPacientes } = useContext(DietasContext);
+    const { modeloComidas, traerComidas, crearDiaDieta } = useContext(DetallesContext);
 
-    const [formValues, handleInputChange] = useForm({
-        pacienteId: '',
-        nombreDieta: '',
-        fechaInicio: '',
+    const [ formValues , handleInputChange, setFormValues ] = useForm({
+        dietaId: dietaId,
+        comidaId: '',
+        gramos: '',
+        calorias: '',
+        ordenComida: orden.ordenComida,
+        ordenDia: orden.ordenDia,
     });
 
-    const handlePostDiet = () => {
-        crearDieta(formValues);
+    useEffect(() => {
+        traerComidas();
+    }, [])
+
+    useEffect(() => {
+        setFormValues(formValues => ({
+            ...formValues,
+            ordenComida: orden.ordenComida,
+            ordenDia: orden.ordenDia,
+        }));
+    }, [orden])
+
+    const handlePostDiaComida = () => {
+        crearDiaDieta(formValues);
         onClose();
     }
 
-    useEffect(() => {
-        traerPacientes();
-    }, [])
-
     return (
         <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Nueva dieta</DialogTitle>
+            <DialogTitle id="form-dialog-title">Agregar comida</DialogTitle>
             <DialogContent>
                 <TextField
                     autoFocus
                     margin="dense"
-                    id="pacienteId"
-                    name="pacienteId"
-                    label="Paciente"
+                    id="comidaId"
+                    name="comidaId"
+                    label="Comida"
+                    placeholder="Comidas"
                     type="text"
                     fullWidth
                     select
                     onChange={handleInputChange}>
                     {
-                        pacientes.map(paciente => (
-                            <MenuItem key={paciente.pacienteId} value={paciente.pacienteId}>{paciente.nombreCompleto}</MenuItem>
+                        modeloComidas.map(comida => (
+                            <MenuItem key={comida.comidaId} value={comida.comidaId}>{comida.nombre}</MenuItem>
                         ))
                     }
                 </TextField>
                 <TextField
                     autoFocus
                     margin="dense"
-                    id="nombreDieta"
-                    label="Nombre de Dieta"
+                    id="gramos"
+                    label="Gramos"
                     type="text"
                     fullWidth
                     onChange={handleInputChange}
@@ -61,9 +75,9 @@ export function NewDietDialog({ open, onClose }) {
                 <TextField
                     autoFocus
                     margin="dense"
-                    id="fechaInicio"
-                    label="Fecha de Inicio"
-                    type="date"
+                    id="calorias"
+                    label="Calorias"
+                    type="text"
                     fullWidth
                     onChange={handleInputChange}
                 />
@@ -72,7 +86,7 @@ export function NewDietDialog({ open, onClose }) {
                 <Button onClick={onClose} color="primary">
                     Cancelar
           </Button>
-                <Button onClick={handlePostDiet} color="primary">
+                <Button onClick={handlePostDiaComida}  color="primary">
                     Agregar
           </Button>
             </DialogActions>
