@@ -6,17 +6,20 @@ import { AddDiaComidaDialog } from "../components/diet-details/addDiaComidaDialo
 import { FoodCard } from '../components/diet-details/foodCard';
 
 export const DietDetails = (props) => {
-    const [addDiaComidaDialog, setAddDiaComidaDialog] = useState(false);
-    const [selectedOrder, setSelectedOrder] = useState({
+    const [addDiaComidaDialog, setAddDiaComidaDialog] = useState({
+        visible: false,
         ordenDia: 0,
-        ordenComida: 0
     });
 
     const diet = props.location.state;
-    
-    const { traerDiaDietas, crearDiaDieta, comidas } = useContext(DetallesContext);
 
-    const dias = ["Lunes","Martes","Miercoles","Jueves","Viernes"]
+    const { traerDiaDietas, crearDiaDieta, diaComidas } = useContext(DetallesContext);
+
+    console.log(diaComidas);
+
+    const desayunos = diaComidas.filter(comida => comida.ordenDia === 1);
+    const comidas = diaComidas.filter(comida => comida.ordenDia === 2);
+    const cenas = diaComidas.filter(comida => comida.ordenDia === 3);
 
     useEffect(() => {
         traerDiaDietas(diet.dietaId);
@@ -26,44 +29,98 @@ export const DietDetails = (props) => {
         props.history.goBack();
     }
 
-    const handleAddDiaComida = () => {
-        setAddDiaComidaDialog(true);
+    const handleAddDiaComida = (ordenDia) => {
+        setAddDiaComidaDialog({
+            visible: true,
+            ordenDia
+        });
     }
 
     const handleCloseDiaComida = () => {
-        setAddDiaComidaDialog(false);
+        setAddDiaComidaDialog({
+            visible: false,
+            ordenDia: 0
+        });
     }
 
     return (
         <div>
             <Button
                 color="primary"
-                style={{position: "relative", left: "0px", top: "20px", backgroundColor: '#3bb33d', color: "white"}}
+                style={{ position: "relative", left: "0px", top: "20px", backgroundColor: '#3bb33d', color: "white" }}
                 onClick={handelArrowBack}>
-                <ArrowBack/>
+                <ArrowBack />
             </Button>
-            <div style={{padding: "20px"}}>
-                <div style={{display: "flex", justifyContent: "space-between"}}>
-                    <h1 style={{marginBottom: "0"}}>{diet.nombreDieta}</h1>
+            <div style={{ padding: "20px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    <h1 style={{ marginBottom: "0" }}>{diet.nombreDieta}</h1>
                     <h3>{diet.fechaInicio.toLocaleDateString()}</h3>
                 </div>
-                <h4 style={{margin: "0", color: "grey"}}>{diet.nombreCompleto}</h4>
+                <h4 style={{ margin: "0", color: "grey" }}>{diet.nombreCompleto}</h4>
             </div>
             <Divider />
-            <div style={{padding:"50px"}}>
-                <div style={{display:"flex", alignItems: "center"}}>
+            <div style={{ padding: "50px" }}>
+                <h2>Desayuno</h2>
+                <div style={{ display: "flex", alignItems: "center", height: "312px" }}>
                     {
-                        comidas.map(comida => (
-                            <FoodCard comida={comida} /> 
+                        desayunos.map(comida => (
+                            <FoodCard comida={comida} />
                         ))
                     }
                     <Fab
                         size="medium"
-                        onClick={handleAddDiaComida}>
-                        <Add colo="white"/>
+                        style={{
+                            marginLeft: "20px",
+                            backgroundColor: '#3bb33d',
+                            color: "white"
+                        }}
+                        onClick={() => handleAddDiaComida(1)}>
+                        <Add colo="white" />
                     </Fab>
                 </div>
-                <AddDiaComidaDialog open={addDiaComidaDialog} onClose={handleCloseDiaComida} orden={selectedOrder} dietaId={diet.dietaId} />
+                <h2>Comida</h2>
+                <div style={{ display: "flex", alignItems: "center", height: "312px" }}>
+                    {
+                        comidas.map(comida => (
+                            <FoodCard comida={comida} />
+                        ))
+                    }
+                    <Fab
+                        size="medium"
+                        style={{
+                            marginLeft: "20px",
+                            backgroundColor: '#3bb33d',
+                            color: "white"
+                        }}
+                        onClick={() => handleAddDiaComida(2)}>
+                        <Add colo="white" />
+                    </Fab>
+                </div>
+                <h2>Cena</h2>
+                <div style={{ display: "flex", alignItems: "center", height: "312px" }}>
+                    {
+                        cenas.map(comida => (
+                            <FoodCard comida={comida} />
+                        ))
+                    }
+                    <Fab
+                        size="medium"
+                        style={{
+                            marginLeft: "20px",
+                            backgroundColor: '#3bb33d',
+                            color: "white"
+                        }}
+                        onClick={() => handleAddDiaComida(3)}>
+                        <Add colo="white" />
+                    </Fab>
+                </div>
+                <AddDiaComidaDialog
+                    open={addDiaComidaDialog.visible}
+                    onClose={handleCloseDiaComida}
+                    orden={{
+                        ordenDia: addDiaComidaDialog.ordenDia
+                    }}
+                    dietaId={diet.dietaId} />
             </div>
         </div>
     )

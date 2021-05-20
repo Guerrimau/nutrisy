@@ -42,6 +42,15 @@ const readFromDb = (connection, sqlQuery) => {
     })
 }
 
+// server: '189.197.64.47',
+//             authentication: {
+//                 type: 'default',
+//                 options: {
+//                     userName: 'sa',
+//                     password: '123'
+//                 }
+//             },
+
 /**
  * Connect to the database
  * @returns 'Promise' A promise object containing an open connection to the database
@@ -57,10 +66,10 @@ const connectToServer = () => {
                     password: 'Administrador123'
                 }
             },
+            port: 1433,
             options: {
+                port: 1433,
                 database: 'NUTRISY',
-                instanceName: 'MSSQLSERVER',
-
                 // These two settings are really important to make successfull connection
                 encrypt: false,
                 trustServerCertificate: false,
@@ -556,7 +565,7 @@ const eliminarDiaDieta = (e, arguments) => {
                         connection.close()
                     }
                 })
-                request.addParameter("dietaId", TYPES.UniqueIdentifier, arguments?.dietaId)
+                request.addParameter("diaDietaId", TYPES.UniqueIdentifier, arguments?.diaDietaId)
                 connection.execSql(request);
             })
             .then(e => resolve("Se elimino con exito"))

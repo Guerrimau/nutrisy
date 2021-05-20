@@ -4,12 +4,12 @@ import { DetallesContext } from './context';
 
 export const DetallesContextProvider = ({ children }) => {
 
-    const [comidas, setComidas] = useState([]);
+    const [diaComidas, setDiaComidas] = useState([]);
     const [modeloComidas, setModeloComidas] = useState([]);
 
     const traerDiaDietas = (dietaId) => {
         ipc.invoke('TRAERDIADIETAS', {dietaId}).then(items => {
-            setComidas(items)
+            setDiaComidas(items)
         })
     }
 
@@ -19,14 +19,21 @@ export const DetallesContextProvider = ({ children }) => {
         })
     }
 
+    const borrarDiaDieta = (diaDietaId) => {
+        ipc.invoke('ELIMINARDIADIETA', {diaDietaId}).then( e => {
+            traerDiaDietas(diaDieta.dietaId)
+        })
+    }
+
     const crearDiaDieta = (diaDieta) => {
         ipc.invoke('CREARDIADIETA', diaDieta).then( e => {
             traerDiaDietas(diaDieta.dietaId)
         })
     }
 
+
     return (
-        <DetallesContext.Provider value={{ comidas, modeloComidas, traerDiaDietas, traerComidas, crearDiaDieta }}>
+        <DetallesContext.Provider value={{ diaComidas, modeloComidas, traerDiaDietas, traerComidas, crearDiaDieta, borrarDiaDieta }}>
             { children }
         </DetallesContext.Provider>
     );
