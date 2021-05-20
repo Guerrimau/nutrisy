@@ -6,7 +6,7 @@ export const PacientesContextProvider = ({ children }) => {
 
     const [pacientes, setPacientes] = useState([]);
 
-    const nutriologo ={
+    const nutriologo = {
         nutriologoId: '0F42863E-09EE-43F1-B362-53FC838B3B98'
     }
 
@@ -30,12 +30,12 @@ export const PacientesContextProvider = ({ children }) => {
     }
 
     const eliminarPaciente = (paciente) => {
-        ipc.invoke("ELIMINARPACIENTE", paciente).then(e => {
-            traerPacientes();
-        })
+        ipc.invoke("ELIMINARPACIENTE", paciente).then(res => {
+            console.log(res);
+        });
     }
 
-    return(
+    return (
         <PacientesContext.Provider value={{ pacientes, traerPacientes, crearPaciente, actualizarPaciente, eliminarPaciente }}>
             {children}
         </PacientesContext.Provider>

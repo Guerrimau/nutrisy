@@ -135,7 +135,14 @@ export const Patients = () => {
                 </Table>
             </TableContainer>
             <Fab
-                onClick={handleDescargarPacientes} variant="extended" style={{ backgroundColor: '#3bb33d', color: "white", position: "fixed", left: "105px", bottom: "15px" }}>
+                onClick={handleDescargarPacientes}
+                variant="extended"
+                style={{
+                    backgroundColor: '#3bb33d',
+                    color: "white",
+                    position: "fixed",
+                    left: "105px",
+                    bottom: "15px" }}>
                 Descargar Pacientes
                 <InsertDriveFile />
             </Fab>

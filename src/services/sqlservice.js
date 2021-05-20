@@ -146,6 +146,8 @@ const eliminarComida = (e, arguments) => {
 
     const eliminarComidaQuery = "DELETE FROM COMIDAS WHERE comidaId=@comidaId"
 
+    console.log(arguments.comidaId);
+
     return new Promise((resolve, reject) => {
         connectToServer()
             .then(connection => {
@@ -309,19 +311,24 @@ const eliminarPaciente = (e, arguments) => {
         connectToServer()
             .then(connection => {
                 let request = new Request(eliminarPacienteQuery, (err, rowCount, rows) => {
-                    if (err) {
-                        reject(err)
-                    } else {
+                    if (err === undefined) {
                         console.log(rowCount + ' row(s) returned')
-                        resolve("Se elimino el paciente con exito")
+                        resolve({
+                            error: false,
+                            msg: "Se elimino el paciente con exito"
+                        })
                         connection.close()
+                    } else {
+                        resolve({
+                            error: true,
+                            name: err.name,
+                            msg: err.message
+                        })
                     }
                 })
                 request.addParameter("pacienteId", TYPES.UniqueIdentifier, arguments?.pacienteId)
-                connection.execSql(request);
-            })
-            .then(e => resolve("Se elimino con exito"))
-            .catch(e => reject(e))
+                connection.execSql(request)
+            });
     });
 } 
 

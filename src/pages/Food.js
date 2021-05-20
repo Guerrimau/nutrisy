@@ -38,8 +38,15 @@ export const Food = () => {
                     {
                         comidas?.map((item, index) => {
                             return (
-                                <FoodCard comida={item} comidaId={item.comidaId} avatar={item.nombre[0]} title={item.nombre} description={item.ingredientes}
-                                    calories={item.calorias} grams={item.gramos}
+                                <FoodCard 
+                                    key={item.comidaId}
+                                    comida={item}
+                                    comidaId={item.comidaId}
+                                    avatar={item.nombre[0]}
+                                    title={item.nombre}
+                                    description={item.ingredientes}
+                                    calories={item.calorias}
+                                    grams={item.gramos}
                                 />
                             )
                         })
