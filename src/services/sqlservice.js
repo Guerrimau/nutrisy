@@ -584,3 +584,42 @@ ipcMain.handle("TRAERDIADIETAS", traerDiaDietas);
 ipcMain.handle("CREARDIADIETA", crearDiaDieta);
 ipcMain.handle("ACTUALIZARDIADIETA", actualizarDiaDieta);
 ipcMain.handle("ELIMINARDIADIETA", eliminarDiaDieta);
+
+
+const traerComidasInsertadas = (e, arguments) => {
+    const traerComidasInsertadasQuery = "SELECT * FROM COMIDASISERTADOS";
+
+    return new Promise((resolve, reject) => {
+        connectToServer()
+            .then(connection => {
+                
+                let items = [];
+
+                let request = new Request(traerComidasInsertadasQuery, (err, rowCount, rows) => {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        console.log(rowCount + ' row(s) returned')
+                        resolve(items)
+                        connection.close()
+                    }
+                });
+
+                request.on('doneInProc', (rowCount, more, rows) => {
+                    items = []
+                    rows.map(row => {
+                        let result = {}
+                        row.map(child => {
+                            result[child.metadata.colName] = child.value
+                        })
+                        items.push(result);
+                    })
+                })
+
+                connection.execSql(request);
+            })
+            .catch(e => reject(e))
+    });
+}
+
+ipcMain.handle("TRAERCOMIDASINSERTADAS", traerComidasInsertadas);

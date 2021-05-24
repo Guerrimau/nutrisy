@@ -19,6 +19,7 @@ import { Food } from '../pages/Food';
 import { Patients } from "../pages/Patients";
 import { Diets } from "../pages/Diets";
 import { DietDetails } from "../pages/DietDetails";
+import { Binnacles } from "../pages/Binnacles";
 
 
 export const AppRouter = () => {
@@ -42,6 +43,7 @@ export const AppRouter = () => {
                             <DetallesContextProvider>
                                 <Route exact path='/details' component={DietDetails} />
                             </DetallesContextProvider>
+                            <Route exact path='/binnacle' component={Binnacles} />
                         </Navbar>
                         <Redirect to ="/login" />
                     </Switch>
