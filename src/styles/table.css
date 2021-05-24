@@ -1,3 +1,9 @@
-td, th, table {
+.border > tr {
+    border: 1px solid black;
+}
+.border > td {
+    border: 1px solid black;
+}
+.border {
     border: 1px solid black;
 }

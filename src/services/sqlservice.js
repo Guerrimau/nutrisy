@@ -586,6 +586,7 @@ ipcMain.handle("ACTUALIZARDIADIETA", actualizarDiaDieta);
 ipcMain.handle("ELIMINARDIADIETA", eliminarDiaDieta);
 
 
+//TODO: Crear funcion que traiga las 3 tipos de bitacoras que existen
 const traerComidasInsertadas = (e, arguments) => {
     const traerComidasInsertadasQuery = "SELECT * FROM COMIDASISERTADOS";
 
