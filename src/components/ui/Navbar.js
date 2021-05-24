@@ -19,6 +19,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LocalDiningIcon from '@material-ui/icons/LocalDining';
 import PeopleIcon from '@material-ui/icons/People';
+import BookIcon from '@material-ui/icons/Book';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -240,6 +241,13 @@ export const Navbar = ({ children }) => {
                         <PeopleIcon />
                     </ListItemIcon>
                     <ListItemText primary="Pacientes" />
+                </ListItem>
+                <ListItem button
+                    onClick={ () => history.push('/binnacle') }>
+                    <ListItemIcon>
+                        <BookIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Bitácoras" />
                 </ListItem>
             </Drawer>
             <main className={classes.content}>

@@ -70,37 +70,133 @@ CREATE TABLE DIADIETA
 );
 
 --? BITACORAS
-CREATE TABLE NUTRIOLOGOSINSERTADOS
-(
+
+CREATE TABLE NUTRIOLOGOSINSERTADOS (
 	id uniqueidentifier default newId(),
+	nutriologoId varchar(200),
 	host varchar(50),
 	usuario varchar(50),
-	accion varchar(50),
+	accion varchar(3000),
 	fecha DATETIME,
 	PRIMARY KEY (id),
-	FOREIGN Key (nutriologoId) REFERENCES NUTRIOLOGOS(nutriologoId),
 );
 
-CREATE TABLE NUTRIOLOGOSMODIFICADOS
-(
+CREATE TABLE NUTRIOLOGOSMODIFICADOS (
 	id uniqueidentifier default newId(),
+	nutriologoId varchar(200),
 	host varchar(50),
 	usuario varchar(50),
-	accion varchar(50),
+	accion varchar(3000),
 	fecha DATETIME,
 	PRIMARY KEY (id),
-	FOREIGN Key (nutriologoId) REFERENCES NUTRIOLOGOS(nutriologoId),
 );
 
-CREATE TABLE NUTRIOLOGOSELIMINADOS
+CREATE TABLE NUTRIOLOGOSELIMINADOS (
+	id uniqueidentifier default newId(),
+	nutriologoId varchar(200),
+	host varchar(50),
+	usuario varchar(50),
+	accion varchar(3000),
+	fecha DATETIME,
+	PRIMARY KEY (id),
+);
+
+CREATE TABLE PACIENTESINSERTADOS (
+	id uniqueidentifier default newId(),
+	pacienteId varchar(200),
+	host varchar(50),
+	usuario varchar(50),
+	accion varchar(3000),
+	fecha DATETIME,
+	PRIMARY KEY (id),
+);
+
+CREATE TABLE PACIENTESMODIFICADOS (
+	id uniqueidentifier default newId(),
+	pacienteId varchar(200),
+	host varchar(50),
+	usuario varchar(50),
+	accion varchar(3000),
+	fecha DATETIME,
+	PRIMARY KEY (id),
+);
+
+CREATE TABLE PACIENTESELIMINADOS (
+	id uniqueidentifier default newId(),
+	pacienteId varchar(200),
+	host varchar(50),
+	usuario varchar(50),
+	accion varchar(3000),
+	fecha DATETIME,
+	PRIMARY KEY (id),
+);
+
+CREATE TABLE COMIDASISERTADOS
+(
+	id uniqueidentifier default newId(),
+	comidaId varchar(50),
+	host varchar(50),
+	usuario varchar(50),
+	accion varchar(3000),
+	fecha DATETIME,
+	PRIMARY KEY (id),
+);
+
+CREATE TABLE COMIDASMODIFICADOS
+(
+	id uniqueidentifier default newId(),
+	comidaId varchar(50),
+	host varchar(50),
+	usuario varchar(50),
+	accion varchar(3000),
+	fecha DATETIME,
+	PRIMARY KEY (id),
+	
+);
+
+CREATE TABLE COMIDASELIMINADOS
+(
+	id uniqueidentifier default newId(),
+	comidaId varchar(50),
+	host varchar(50),
+	usuario varchar(50),
+	accion varchar(3000),
+	fecha DATETIME,
+	PRIMARY KEY (id),
+	
+);
+
+CREATE TABLE DIETAINSERTADOS
 (
 	id uniqueidentifier default newId(),
 	host varchar(50),
 	usuario varchar(50),
-	accion varchar(50),
+	accion varchar(3000),
 	fecha DATETIME,
 	PRIMARY KEY (id),
-	FOREIGN Key (nutriologoId) REFERENCES NUTRIOLOGOS(nutriologoId),
+	dietaid varchar(300)
+);
+
+CREATE TABLE DIETAMODIFICADOS
+(
+	id uniqueidentifier default newId(),
+	host varchar(50),
+	usuario varchar(50),
+	accion varchar(3000),
+	fecha DATETIME,
+	PRIMARY KEY (id),
+	dietaid varchar(300)
+);
+
+CREATE TABLE DIETAELIMINADOS
+(
+	id uniqueidentifier default newId(),
+	host varchar(50),
+	usuario varchar(50),
+	accion varchar(3000),
+	fecha DATETIME,
+	PRIMARY KEY (id),
+	dietaid varchar(300)
 );
 
 --Agregar una comida
