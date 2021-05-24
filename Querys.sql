@@ -199,6 +199,39 @@ CREATE TABLE DIETAELIMINADOS
 	dietaid varchar(300)
 );
 
+CREATE TABLE DIADIETAINSERTADOS
+(
+	id uniqueidentifier default newId(),
+	diaDietaId varchar(50),
+	host varchar(50),
+	usuario varchar(50),
+	accion varchar(3000),
+	fecha DATETIME,
+	PRIMARY KEY (id),
+);
+
+CREATE TABLE DIADIETAMODIFICADOS
+(
+	id uniqueidentifier default newId(),
+	diaDietaId varchar(50),
+	host varchar(50),
+	usuario varchar(50),
+	accion varchar(3000),
+	fecha DATETIME,
+	PRIMARY KEY (id),
+);
+
+CREATE TABLE DIADIETAELIMINADOS
+(
+	id uniqueidentifier default newId(),
+	diaDietaId varchar(50),
+	host varchar(50),
+	usuario varchar(50),
+	accion varchar(3000),
+	fecha DATETIME,
+	PRIMARY KEY (id),
+);
+
 --Agregar una comida
 INSERT INTO COMIDAS
 	(nombre, ingredientes, calorias, gramos)

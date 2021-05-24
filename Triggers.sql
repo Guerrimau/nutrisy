@@ -193,3 +193,56 @@ DECLARE @query varchar(1000), @dietaId UNIQUEIDENTIFIER
 INSERT DIETAELIMINADOS
 	(host,usuario,fecha,accion, dietaid)
 VALUES(@@SERVERNAME, SUSER_NAME(), GETDATE(), @query, @dietaId);
+
+
+
+
+
+--? DIADIETA
+-- Insertar
+CREATE TRIGGER DIADIETA_INSERTADOS_TRIGGER
+ON DIADIETA
+FOR INSERT
+AS
+DECLARE @query varchar(1000), @diaDietaId UNIQUEIDENTIFIER, @dietaId UNIQUEIDENTIFIER,@comidaId UNIQUEIDENTIFIER,@ordenDia int, @ordenComida int, @nombreComida VARCHAR(300),@gramos float,@calorias float
+	SET @diaDietaId=(SELECT diaDietaId FROM inserted)
+	SET @dietaId=(SELECT dietaId FROM inserted)
+	SET @comidaId=(SELECT comidaId FROM inserted)
+	SET @ordenDia=(SELECT ordenDia FROM inserted)
+	SET @nombreComida=(SELECT nombreComida FROM inserted)
+	SET @gramos=(SELECT gramos FROM inserted)
+	SET @calorias=(SELECT calorias FROM inserted)
+	SET @query= CONCAT('Insert into DIADIETA: ', @diaDietaId, ', ',@dietaId, ', ',@comidaId, ', ', @ordenDia, ', ', @ordenComida, ', ', @nombreComida, ', ', @gramos, ', ', @calorias)
+INSERT DIADIETAINSERTADOS
+	(host,usuario,fecha,accion, diaDietaId)
+VALUES(@@SERVERNAME, SUSER_NAME(), GETDATE(), @query, @diaDietaId);
+
+-- Actualizar
+CREATE TRIGGER DIADIETA_MODIFICADOS_TRIGGER
+ON DIADIETA
+FOR UPDATE
+AS
+DECLARE @query varchar(1000), @diaDietaId UNIQUEIDENTIFIER, @dietaId UNIQUEIDENTIFIER,@comidaId UNIQUEIDENTIFIER,@ordenDia int, @ordenComida int, @nombreComida VARCHAR(300),@gramos float,@calorias float
+	SET @diaDietaId=(SELECT diaDietaId FROM inserted)
+	SET @dietaId=(SELECT dietaId FROM inserted)
+	SET @comidaId=(SELECT comidaId FROM inserted)
+	SET @ordenDia=(SELECT ordenDia FROM inserted)
+	SET @nombreComida=(SELECT nombreComida FROM inserted)
+	SET @gramos=(SELECT gramos FROM inserted)
+	SET @calorias=(SELECT calorias FROM inserted)
+	SET @query= CONCAT('Update into DIADIETA: ', @diaDietaId, ', ',@dietaId, ', ',@comidaId, ', ', @ordenDia, ', ', @ordenComida, ', ', @nombreComida, ', ', @gramos, ', ', @calorias)
+INSERT DIADIETAMODIFICADOS
+	(host,usuario,fecha,accion, diaDietaId)
+VALUES(@@SERVERNAME, SUSER_NAME(), GETDATE(), @query, @diaDietaId);
+
+-- Delete
+CREATE TRIGGER DIADIETA_ELIMINADOS_TRIGGER
+ON DIADIETA
+FOR DELETE
+AS
+DECLARE @query varchar(1000), @diaDietaId UNIQUEIDENTIFIER
+	SET @diaDietaId=(SELECT diaDietaId FROM deleted)
+	SET @query= CONCAT('DELETE FROM DIETA WHERE ID=', @diaDietaId)
+INSERT DIETAELIMINADOS
+	(host,usuario,fecha,accion, dietaid)
+VALUES(@@SERVERNAME, SUSER_NAME(), GETDATE(), @query, @diaDietaId);
