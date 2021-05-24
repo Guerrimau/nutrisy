@@ -8,7 +8,7 @@ export const DietasContextProvider = ({ children }) => {
     const [pacientes, setPacientes] = useState([]);
 
     const nutriologo ={
-        nutriologoId: '0F42863E-09EE-43F1-B362-53FC838B3B98'
+        nutriologoId: 'BCD6222A-B17B-47AA-803E-27FB5A66708B'
     }
 
     const traerPacientes = () => {
