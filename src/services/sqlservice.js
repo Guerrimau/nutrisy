@@ -101,7 +101,7 @@ const connectToServer = () => {
 
 //? Login y Registro
 const login = (e, arguments) => {
-    const traerUsuarioQuery = "SELECT nutriologoId, correo, contrasena from NUTRIOLOGOS where correo=@correo"
+    const traerUsuarioQuery = "SELECT nutriologoId, nombre, apellido, correo, contrasena from NUTRIOLOGOS where correo=@correo"
 
     return new Promise((resolve, reject) => {
         connectToServer().then(connection => {

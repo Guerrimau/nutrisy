@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { useForm } from '../hooks/useForm';
 import { ipcRenderer as ipc } from 'electron';
+import { UsuarioContext } from '../context/usuario-context';
 
 
 function Copyright() {
@@ -72,9 +73,14 @@ export const Login = () => {
         ingredientes: '',
     });
 
+    const { setUsuario } = useContext(UsuarioContext);
+
+    //TODO: manejar errores en el login
+
     const performLogin = () => {
         ipc.invoke("LOGIN", formValues).then(res => {
             if(!res.error){
+                setUsuario(res.data);
                 history.push("/food");
             }
         })
