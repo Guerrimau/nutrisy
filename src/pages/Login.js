@@ -11,6 +11,8 @@ import Grid from '@material-ui/core/Grid';
 import Person  from '@material-ui/icons/Person';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { useForm } from '../hooks/useForm';
+import { ipcRenderer as ipc } from 'electron';
 
 
 function Copyright() {
@@ -65,10 +67,18 @@ export const Login = () => {
     const classes = useStyles();
     const history = useHistory();
 
-    const performLogin = () => {
-        history.push("/food");
-    };
+    const [formValues, handleInputChange] = useForm({
+        correo: '',
+        ingredientes: '',
+    });
 
+    const performLogin = () => {
+        ipc.invoke("LOGIN", formValues).then(res => {
+            if(!res.error){
+                history.push("/food");
+            }
+        })
+    };
     
     return (
         <Grid container component="main" className={classes.root}>
@@ -88,24 +98,22 @@ export const Login = () => {
                             margin="normal"
                             required
                             fullWidth
-                            id="email"
-                            label="Usuario"
-                            name="email"
-                            autoComplete="email"
+                            id="correo"
+                            label="Correo"
+                            name="correo"
                             autoFocus
-                            
+                            onChange={handleInputChange}
                         />
                         <TextField
                             variant="outlined"
                             margin="normal"
                             required
                             fullWidth
-                            name="password"
+                            name="contrasena"
                             label="Contraseña"
                             type="password"
-                            id="password"
-                            autoComplete="current-password"
-                            
+                            id="contrasena"
+                            onChange={handleInputChange}
                         />
                         <Button
                             type="submit"
@@ -115,7 +123,7 @@ export const Login = () => {
                             className={classes.submit}
                             onClick={() => performLogin()}
                         >
-                            Sign In
+                            Iniciar sesión
                         </Button>
                         <Box mt={5}>
                             <Copyright />
