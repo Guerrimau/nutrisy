@@ -99,12 +99,68 @@ const connectToServer = () => {
     })
 }
 
+//? Login y Registro
+const login = (e, arguments) => {
+    const traerUsuarioQuery = "SELECT nutriologoId, correo, contrasena from NUTRIOLOGOS where correo=@correo"
 
+    return new Promise((resolve, reject) => {
+        connectToServer().then(connection => {
+            let request = new Request(traerUsuarioQuery, (err, rowCount, rows) => {
+                if (err !== undefined) {
+                    resolve({
+                        error: true,
+                        name: "Sucedio un error",
+                        msg: "Intentelo de nuevo mas tarde"
+                    })
+                }
+            })
+            request.addParameter("correo", TYPES.VarChar, arguments?.correo);
+
+            request.on('doneInProc', (rowCount, more, rows) => {
+                let items = []
+
+                rows.map(row => {
+                    let result = {}
+                    row.map(child => {
+                        result[child.metadata.colName] = child.value
+                    })
+                    items.push(result);
+                })
+
+                if(items.length === 0){
+                    resolve({
+                        error: true,
+                        name: "No se ha encontrado ningun usuario con ese correo",
+                        data: resultado
+                    })
+                }
+
+                const resultado = items[0]; 
+
+                if(resultado.contrasena === arguments.contrasena){
+                    resolve({
+                        error: false,
+                        name: "Se ha iniciado sesion correctamente",
+                        data: resultado
+                    })
+                } else {
+                    resolve({
+                        error: true,
+                        name: "La contraseña es incorrecta"
+                    })
+                }
+            })
+            connection.execSql(request);
+        })
+    });
+}
+
+ipcMain.handle("LOGIN", login);
 
 //! FUNCIONES DE COMIDAS
 
 const crearComida = (e, arguments) => {
-    
+
     const crearComidaQuery = "INSERT INTO COMIDAS (imagen, nombre, ingredientes) VALUES (@imagen, @nombre,@ingredientes)"
 
     return new Promise((resolve, reject) => {
@@ -205,13 +261,13 @@ ipcMain.handle('GETCOMIDAS', getComidas);
 //! FUNCIONES DE PACIENTES
 
 const traerPacientes = (e, nutriologoId) => {
-    
+
     const traerPacientesQuery = "SELECT * FROM PACIENTES WHERE nutriologoId=@nutriologoId"
 
     return new Promise((resolve, reject) => {
         connectToServer()
             .then(connection => {
-                
+
                 let items = [];
 
                 let request = new Request(traerPacientesQuery, (err, rowCount, rows) => {
@@ -244,7 +300,7 @@ const traerPacientes = (e, nutriologoId) => {
 
 const crearPaciente = (e, arguments) => {
     const crearPacienteQuery = "INSERT INTO PACIENTES (nutriologoId, nombreCompleto, email, sexo, peso, altura, imc, calorias ) VALUES (@nutriologoId, @nombreCompleto, @email, @sexo, @peso, @altura, @imc, @calorias)";
-    
+
     return new Promise((resolve, reject) => {
         connectToServer()
             .then(connection => {
@@ -330,7 +386,7 @@ const eliminarPaciente = (e, arguments) => {
                 connection.execSql(request)
             });
     });
-} 
+}
 
 ipcMain.handle("TRAERPACIENTES", traerPacientes);
 ipcMain.handle("CREARPACIENTE", crearPaciente);
@@ -340,14 +396,14 @@ ipcMain.handle("ELIMINARPACIENTE", eliminarPaciente);
 
 
 //! Funciones de Dietas
-const traerDietas= (e, nutriologoId) => {
-    
+const traerDietas = (e, nutriologoId) => {
+
     const traerDietasQuery = "SELECT dietaId, DIETAS.nutriologoId, DIETAS.pacienteId, nombreCompleto, nombreDieta, fechaInicio FROM DIETAS, PACIENTES WHERE DIETAS.nutriologoId=@nutriologoId AND DIETAS.pacienteId = PACIENTES.pacienteId"
 
     return new Promise((resolve, reject) => {
         connectToServer()
             .then(connection => {
-                
+
                 let items = [];
 
                 let request = new Request(traerDietasQuery, (err, rowCount, rows) => {
@@ -380,7 +436,7 @@ const traerDietas= (e, nutriologoId) => {
 
 const crearDieta = (e, arguments) => {
     const crearDietaQuery = "INSERT INTO DIETAS (nutriologoId, pacienteId, nombreDieta, fechaInicio) VALUES (@nutriologoId, @pacienteId, @nombreDieta, @fechaInicio)";
-    
+
     return new Promise((resolve, reject) => {
         connectToServer()
             .then(connection => {
@@ -452,7 +508,7 @@ const eliminarDieta = (e, arguments) => {
             .then(e => resolve("Se elimino con exito"))
             .catch(e => reject(e))
     });
-} 
+}
 
 ipcMain.handle("TRAERDIETAS", traerDietas);
 ipcMain.handle("CREARDIETA", crearDieta);
@@ -463,14 +519,14 @@ ipcMain.handle("ELIMINARDIETA", eliminarDieta);
 
 //! Dia Dieta Funciones
 
-const traerDiaDietas= (e, arguments) => {
-    
+const traerDiaDietas = (e, arguments) => {
+
     const traerDiaDietasQuery = "SELECT imagen, nombre, ingredientes, diaDietaId, dietaId, COMIDAS.comidaId, ordenDia, ordenComida, gramos, calorias from COMIDAS, DIADIETA WHERE DIADIETA.dietaId=@dietaId AND DIADIETA.comidaId=COMIDAS.comidaId"
 
     return new Promise((resolve, reject) => {
         connectToServer()
             .then(connection => {
-                
+
                 let items = [];
 
                 let request = new Request(traerDiaDietasQuery, (err, rowCount, rows) => {
@@ -503,7 +559,7 @@ const traerDiaDietas= (e, arguments) => {
 
 const crearDiaDieta = (e, arguments) => {
     const crearDiaDietaQuery = "INSERT INTO DIADIETA (dietaId, comidaId, ordenDia, ordenComida, nombreComida, gramos, calorias) VALUES (@dietaId, @comidaId, @ordenDia, @ordenComida, @nombreComida, @gramos, @calorias)";
-    
+
     return new Promise((resolve, reject) => {
         connectToServer()
             .then(connection => {
@@ -530,8 +586,8 @@ const crearDiaDieta = (e, arguments) => {
 }
 
 const actualizarDiaDieta = (e, arguments) => {
-    const actualizarDiaDietaQuery = 'UPDATE DIETAS SET dietaId=@dietaId, comidaId=@comidaId, ordenDia=@ordenDia, ordenComida=@ordenComida, nombreComida=@nombreComida, gramos=@gramos, calorias=@calorias  WHERE diaDietaId=@diaDietaId' 
-    
+    const actualizarDiaDietaQuery = 'UPDATE DIETAS SET dietaId=@dietaId, comidaId=@comidaId, ordenDia=@ordenDia, ordenComida=@ordenComida, nombreComida=@nombreComida, gramos=@gramos, calorias=@calorias  WHERE diaDietaId=@diaDietaId'
+
     return new Promise((resolve, reject) => {
         connectToServer()
             .then(connection => {
@@ -578,7 +634,7 @@ const eliminarDiaDieta = (e, arguments) => {
             .then(e => resolve("Se elimino con exito"))
             .catch(e => reject(e))
     });
-} 
+}
 
 ipcMain.handle("TRAERDIADIETAS", traerDiaDietas);
 ipcMain.handle("CREARDIADIETA", crearDiaDieta);
@@ -593,7 +649,7 @@ const traerComidasInsertadas = (e, arguments) => {
     return new Promise((resolve, reject) => {
         connectToServer()
             .then(connection => {
-                
+
                 let items = [];
 
                 let request = new Request(traerComidasInsertadasQuery, (err, rowCount, rows) => {

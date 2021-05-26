@@ -17,9 +17,12 @@ export const Binnacles = () => {
         ipc.invoke("TRAERCOMIDASINSERTADAS").then(items => {
             setComidasInsertadas(items)
         })
+        ipc.invoke("LOGIN", { correo: "gmayboca@gmail.com", contrasena: "gerardo123" }).then(res => {
+            console.log(res);
+        })
     }, [])
 
-    console.log(comidasInsertadas);
+    //TODO: hacer correctamente la tabla en componentes
 
     return (
         <div>
