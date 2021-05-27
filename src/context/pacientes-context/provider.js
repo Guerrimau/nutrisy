@@ -1,23 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { PacientesContext } from "./context";
 import { ipcRenderer as ipc } from 'electron';
+import { UsuarioContext } from "../usuario-context";
 
 export const PacientesContextProvider = ({ children }) => {
 
     const [pacientes, setPacientes] = useState([]);
 
-    const nutriologo = {
-        nutriologoId: '8E4508B0-5399-4A1D-9AC2-E4CB6ADCCA9A'
-    }
+    const { usuario } = useContext(UsuarioContext);
 
     const traerPacientes = () => {
-        ipc.invoke("TRAERPACIENTES", nutriologo.nutriologoId).then(items => {
+        ipc.invoke("TRAERPACIENTES", usuario.nutriologoId).then(items => {
             setPacientes(items)
         });
     }
 
     const crearPaciente = (paciente = {}) => {
-        paciente.nutriologoId = nutriologo.nutriologoId
+        paciente.nutriologoId = usuario.nutriologoId
         ipc.invoke("CREARPACIENTE", paciente).then(e => {
             traerPacientes();
         })

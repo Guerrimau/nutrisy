@@ -128,7 +128,7 @@ export const Navbar = ({ children }) => {
     };
 
     const handleLogOut = () => {
-        history.push('/login');
+        history.replace('/');
     }
 
     function ListItemLink(props) {
@@ -186,10 +186,6 @@ export const Navbar = ({ children }) => {
                                 open={open}
                                 onClose={handleClose}
                             >
-                                <MenuItem onClick={handleClose}>Mi cuenta</MenuItem>
-                                <MenuItem onClick={handleClose}>Configuracion</MenuItem>
-
-                                <Divider />
                                 <MenuItem onClick={() => handleLogOut()}>Cerrar sesion</MenuItem>
                             </Menu>
                         </div>

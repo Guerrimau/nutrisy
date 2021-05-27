@@ -43,6 +43,8 @@ function createWindow () {
 
   win.loadURL(indexPath)
 
+  win.setMenuBarVisibility(false);
+
   // Open the DevTools.
   win.webContents.openDevTools()
 }

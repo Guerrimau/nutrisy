@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Redirect
+   HashRouter,
+   Switch,
+   Route,
+   Redirect,
+   useHistory
 } from "react-router-dom";
 
 import { Navbar } from "../components/ui/Navbar";
@@ -24,30 +25,29 @@ import { Binnacles } from "../pages/Binnacles";
 
 export const AppRouter = () => {
 
-    return (
-        <Router>
-                <div>
-                    <Switch>
-                        <Route exact path='/login' component={Login} />
-                        <Route exact path='/register' component={Register} />
-                        <Navbar>
-                            <ComidasContextProvider>
-                                <Route exact path='/food' component={Food} />
-                            </ComidasContextProvider>
-                            <PacientesContextProvider>
-                                <Route exact path='/patients' component={Patients} />
-                            </PacientesContextProvider>
-                            <DietasContextProvider>
-                                <Route exact path='/diet' component={Diets}/>
-                            </DietasContextProvider>
-                            <DetallesContextProvider>
-                                <Route exact path='/details' component={DietDetails} />
-                            </DetallesContextProvider>
-                            <Route exact path='/binnacle' component={Binnacles} />
-                        </Navbar>
-                        <Redirect to ="/login" />
-                    </Switch>
-                </div>
-            </Router>
-    )
+   return (
+      <HashRouter>
+         <div>
+            <Switch>
+               <Route exact path='/' component={Login} />
+               <Route exact path='/register' component={Register} />
+               <Navbar>
+                  <ComidasContextProvider>
+                     <Route exact path='/food' component={Food} />
+                  </ComidasContextProvider>
+                  <PacientesContextProvider>
+                     <Route exact path='/patients' component={Patients} />
+                  </PacientesContextProvider>
+                  <DietasContextProvider>
+                     <Route exact path='/diet' component={Diets} />
+                  </DietasContextProvider>
+                  <DetallesContextProvider>
+                     <Route exact path='/details' component={DietDetails} />
+                  </DetallesContextProvider>
+                  <Route exact path='/binnacle' component={Binnacles} />
+               </Navbar>
+            </Switch>
+         </div>
+      </HashRouter>
+   )
 }

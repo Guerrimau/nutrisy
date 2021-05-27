@@ -10,8 +10,6 @@ const initialState = {
 export const UsuarioContextProvider = ({ children }) => {
     const [state, setState] = useState(initialState);
 
-    console.log(state);
-
     const setUsuario = (usuario) => {
         setState({
             ...usuario,

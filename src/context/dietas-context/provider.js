@@ -1,30 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { DietasContext } from "./context";
 import { ipcRenderer as ipc } from "electron";
+import { UsuarioContext } from "../usuario-context";
 
 export const DietasContextProvider = ({ children }) => {
 
     const [dietas, setDietas] = useState([]);
     const [pacientes, setPacientes] = useState([]);
 
-    const nutriologo ={
-        nutriologoId: '8E4508B0-5399-4A1D-9AC2-E4CB6ADCCA9A'
-    }
+    const { usuario } = useContext(UsuarioContext);
 
     const traerPacientes = () => {
-        ipc.invoke("TRAERPACIENTES", nutriologo.nutriologoId).then(items => {
+        ipc.invoke("TRAERPACIENTES", usuario.nutriologoId).then(items => {
             setPacientes(items)
         });
     }
 
     const traerDietas = () => {
-        ipc.invoke("TRAERDIETAS", nutriologo.nutriologoId).then(items => {
+        ipc.invoke("TRAERDIETAS", usuario.nutriologoId).then(items => {
             setDietas(items)
         });
     }
 
     const crearDieta = (dieta = {}) => {
-        ipc.invoke("CREARDIETA", { ...dieta, nutriologoId: nutriologo.nutriologoId }).then(e => {
+        ipc.invoke("CREARDIETA", { ...dieta, nutriologoId: usuario.nutriologoId }).then(e => {
             traerDietas();
         })
     }
