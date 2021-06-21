@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { ipcRenderer as ipc } from 'electron'
 import { ComidasContext } from "./context";
+import { UsuarioContext } from "../usuario-context";
 
 //! Estructura del objeto comida
 // const comida = {
@@ -15,17 +16,20 @@ export const ComidasContextProvider = ({ children }) => {
 
     const [comidas, setComidas] = useState([])
 
+    const { usuario } = useContext(UsuarioContext);
+
+    const createdBy = usuario.fullName;
+
     const crearComida = (comida) => {
-        ipc.invoke('CREARCOMIDA', comida).then( e => traerComidas());
+        ipc.invoke('CREARCOMIDA', {...comida, createdBy}).then( e => traerComidas());
     }
 
     const eliminarComida = (comida) => {
-        ipc.invoke("ELIMINARCOMIDA", comida).then( e => traerComidas());
+        ipc.invoke("ELIMINARCOMIDA", {...comida, createdBy}).then( e => traerComidas());
     }
 
     const actualizarComida = (comida) => {
-        console.log(comida);
-        ipc.invoke("ACTUALIZARCOMIDA", comida).then( e => traerComidas());
+        ipc.invoke("ACTUALIZARCOMIDA", {...comida, createdBy}).then( e => traerComidas());
     }
 
     const traerComidas = () => {

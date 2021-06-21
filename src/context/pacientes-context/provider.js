@@ -9,6 +9,8 @@ export const PacientesContextProvider = ({ children }) => {
 
     const { usuario } = useContext(UsuarioContext);
 
+    const createdBy = usuario.fullName;
+
     const traerPacientes = () => {
         ipc.invoke("TRAERPACIENTES", usuario.nutriologoId).then(items => {
             setPacientes(items)
@@ -17,20 +19,20 @@ export const PacientesContextProvider = ({ children }) => {
 
     const crearPaciente = (paciente = {}) => {
         paciente.nutriologoId = usuario.nutriologoId
-        ipc.invoke("CREARPACIENTE", paciente).then(e => {
+        ipc.invoke("CREARPACIENTE", {...paciente, createdBy }).then(e => {
             traerPacientes();
         })
     }
 
     const actualizarPaciente = (paciente) => {
-        ipc.invoke("ACTUALIZARPACIENTE", paciente).then(e => {
+        ipc.invoke("ACTUALIZARPACIENTE", {...paciente, createdBy}).then(e => {
             traerPacientes();
         })
     }
 
     const eliminarPaciente = (paciente) => {
-        ipc.invoke("ELIMINARPACIENTE", paciente).then(res => {
-            console.log(res);
+        ipc.invoke("ELIMINARPACIENTE", {...paciente, createdBy}).then(res => {
+            traerPacientes();
         });
     }
 

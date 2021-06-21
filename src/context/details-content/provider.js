@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { ipcRenderer as ipc } from "electron";
 import { DetallesContext } from './context';
+import { UsuarioContext } from "../usuario-context";
 
 export const DetallesContextProvider = ({ children }) => {
 
     const [diaComidas, setDiaComidas] = useState([]);
     const [modeloComidas, setModeloComidas] = useState([]);
+
+    const { usuario } = useContext(UsuarioContext);
+
+    const createdBy = usuario.fullName;
 
     const traerDiaDietas = (dietaId) => {
         ipc.invoke('TRAERDIADIETAS', {dietaId}).then(items => {
@@ -26,7 +31,7 @@ export const DetallesContextProvider = ({ children }) => {
     }
 
     const crearDiaDieta = (diaDieta) => {
-        ipc.invoke('CREARDIADIETA', diaDieta).then( e => {
+        ipc.invoke('CREARDIADIETA', {...diaDieta, createdBy}).then( e => {
             traerDiaDietas(diaDieta.dietaId)
         })
     }

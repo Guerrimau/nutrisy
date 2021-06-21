@@ -17,7 +17,6 @@ export function EditDietDialog({ open, onClose, dieta }) {
     const [ formValues , handleInputChange, setFormValues ] = useForm(dieta);
 
     const handleUpdateDiet = () => {
-        console.log(formValues)
         actualizarDieta(formValues);
         onClose();
     }

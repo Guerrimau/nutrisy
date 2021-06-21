@@ -13,9 +13,12 @@ export const UsuarioContextProvider = ({ children }) => {
     const setUsuario = (usuario) => {
         setState({
             ...usuario,
+            fullName: usuario.nombre + " " + usuario.apellido,
             isAuthenticated: true
         });
     };
+
+    console.log(state);
 
     const cerrarSesion = () => {
         window.location.replace("/login");

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useForm } from "../../hooks/useForm";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -12,6 +12,11 @@ import Progress from '@material-ui/core/CircularProgress';
 import { ComidasContext } from '../../context/comidas-context';
 import { fileUpload } from "../../services/fileUpload";
 
+const imagenInitialState = {
+    url: null,
+    loading: false,
+}
+
 export function NewFoodDialog({ open, onClose }) {
 
     const { crearComida } = useContext(ComidasContext);
@@ -20,10 +25,7 @@ export function NewFoodDialog({ open, onClose }) {
         nombre: '',
         ingredientes: '',
     });
-    const [imagen, setImagen] = useState({
-        url: null,
-        loading: false,
-    });
+    const [imagen, setImagen] = useState(imagenInitialState);
 
     const handlePostFood = () => {
         const comida = {
@@ -32,6 +34,12 @@ export function NewFoodDialog({ open, onClose }) {
         }
         crearComida(comida);
         onClose();
+        setImagen(imagenInitialState)
+    }
+
+    const handleClose = () => {
+        onClose()
+        setImagen(imagenInitialState)
     }
 
     const handlePictureClick = () => {
@@ -107,7 +115,6 @@ export function NewFoodDialog({ open, onClose }) {
                     onChange={handleInputChange}
                 />
                 <TextField
-                    autoFocus
                     margin="dense"
                     id="ingredientes"
                     label="Ingredientes"
@@ -119,7 +126,7 @@ export function NewFoodDialog({ open, onClose }) {
                 />
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClose} color="primary">
+                <Button onClick={handleClose} color="primary">
                     Cancelar
           </Button>
                 <Button onClick={handlePostFood} color="primary">

@@ -11,44 +11,39 @@ import "../styles/table.css";
 
 export const Binnacles = () => {
 
-    const [comidasInsertadas, setComidasInsertadas] = useState([]);
+    const [bitacoras, setBitacoras] = useState([]);
 
     useEffect(() => {
-        ipc.invoke("TRAERCOMIDASINSERTADAS").then(items => {
-            setComidasInsertadas(items)
+        ipc.invoke("TRAERBITACORAS").then(items => {
+            setBitacoras(items)
         })
     }, [])
-
-    //TODO: hacer correctamente la tabla en componentes
 
     return (
         <div>
             <h1>Bitácoras</h1>
             <Divider />
-            <h3>Comidas Insertadas</h3>
             <TableContainer style={{ overflow: "hidden"}} component={Paper}>
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
                             <TableCell>id</TableCell>
-                            <TableCell>comidaId</TableCell>
                             <TableCell>host</TableCell>
                             <TableCell>usuario</TableCell>
+                            <TableCell>tabla</TableCell>
                             <TableCell>accion</TableCell>
+                            <TableCell>query</TableCell>
                             <TableCell>fecha</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {comidasInsertadas !== undefined ?
-                            comidasInsertadas.map((item) => {
+                        {bitacoras !== undefined ?
+                            bitacoras.map((item) => {
                                 const fecha = new Date(item.fecha).toISOString()
                                 return (
                                     <TableRow key={item.id}>
                                     <TableCell component="th" scope="row" width='2.5em'>
                                         {item.id}
-                                    </TableCell>
-                                    <TableCell component="th" scope="row" width='2.5em'>
-                                        {item.comidaId}
                                     </TableCell>
                                     <TableCell component="th" scope="row" width='2.5em'>
                                         {item.host}
@@ -57,7 +52,13 @@ export const Binnacles = () => {
                                         {item.usuario}
                                     </TableCell>
                                     <TableCell component="th" scope="row" width='2.5em'>
+                                        {item.tabla}
+                                    </TableCell>
+                                    <TableCell component="th" scope="row" width='2.5em'>
                                         {item.accion}
+                                    </TableCell>
+                                    <TableCell component="th" scope="row" width='2.5em'>
+                                        {item.query}
                                     </TableCell>
                                     <TableCell component="th" scope="row" width='2.5em'>
                                         {fecha}

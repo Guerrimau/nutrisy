@@ -161,7 +161,7 @@ ipcMain.handle("LOGIN", login);
 
 const crearComida = (e, arguments) => {
 
-    const crearComidaQuery = "INSERT INTO COMIDAS (imagen, nombre, ingredientes) VALUES (@imagen, @nombre,@ingredientes)"
+    const crearComidaQuery = "INSERT INTO COMIDAS (imagen, nombre, ingredientes, createdBy) VALUES (@imagen, @nombre,@ingredientes, @createdBy)"
 
     return new Promise((resolve, reject) => {
         connectToServer()
@@ -177,6 +177,7 @@ const crearComida = (e, arguments) => {
                 request.addParameter('nombre', TYPES.NVarChar, arguments?.nombre)
                 request.addParameter('ingredientes', TYPES.NVarChar, arguments?.ingredientes)
                 request.addParameter('imagen', TYPES.NVarChar, arguments?.imagen)
+                request.addParameter("createdBy", TYPES.VarChar, arguments?.createdBy)
 
                 connection.execSql(request);
 
@@ -202,8 +203,6 @@ const eliminarComida = (e, arguments) => {
 
     const eliminarComidaQuery = "DELETE FROM COMIDAS WHERE comidaId=@comidaId"
 
-    console.log(arguments.comidaId);
-
     return new Promise((resolve, reject) => {
         connectToServer()
             .then(connection => {
@@ -225,7 +224,7 @@ const eliminarComida = (e, arguments) => {
 }
 
 const actualizarComida = (e, arguments) => {
-    const actualizarComidaQuery = "UPDATE COMIDAS SET nombre=@nombre, ingredientes=@ingredientes, imagen=@imagen WHERE comidaId=@comidaId"
+    const actualizarComidaQuery = "UPDATE COMIDAS SET nombre=@nombre, ingredientes=@ingredientes, imagen=@imagen, createdBy=@createdBy WHERE comidaId=@comidaId"
 
     return new Promise((resolve, reject) => {
         connectToServer()
@@ -243,6 +242,7 @@ const actualizarComida = (e, arguments) => {
                 request.addParameter('nombre', TYPES.NVarChar, arguments?.nombre)
                 request.addParameter('ingredientes', TYPES.NVarChar, arguments?.ingredientes)
                 request.addParameter('imagen', TYPES.NVarChar, arguments?.imagen)
+                request.addParameter("createdBy", TYPES.VarChar, arguments?.createdBy)
 
                 connection.execSql(request);
             })
@@ -299,7 +299,7 @@ const traerPacientes = (e, nutriologoId) => {
 }
 
 const crearPaciente = (e, arguments) => {
-    const crearPacienteQuery = "INSERT INTO PACIENTES (nutriologoId, nombreCompleto, email, sexo, peso, altura, imc, calorias ) VALUES (@nutriologoId, @nombreCompleto, @email, @sexo, @peso, @altura, @imc, @calorias)";
+    const crearPacienteQuery = "INSERT INTO PACIENTES (nutriologoId, nombreCompleto, email, sexo, peso, altura, imc, calorias, createdBy ) VALUES (@nutriologoId, @nombreCompleto, @email, @sexo, @peso, @altura, @imc, @calorias, @createdBy)";
 
     return new Promise((resolve, reject) => {
         connectToServer()
@@ -321,6 +321,7 @@ const crearPaciente = (e, arguments) => {
                 request.addParameter("altura", TYPES.Int, arguments?.altura)
                 request.addParameter("imc", TYPES.Float, arguments?.imc)
                 request.addParameter("calorias", TYPES.Int, arguments?.calorias)
+                request.addParameter("createdBy", TYPES.VarChar, arguments?.createdBy)
 
                 connection.execSql(request);
             }).catch(err => reject(err))
@@ -328,7 +329,7 @@ const crearPaciente = (e, arguments) => {
 }
 
 const actualizarPaciente = (e, arguments) => {
-    const actualizarPacienteQuery = "UPDATE PACIENTES SET nombreCompleto=@nombreCompleto, email=@email, sexo=@sexo, peso=@peso, altura=@altura, imc=@imc, calorias=@calorias WHERE pacienteId=@pacienteId";
+    const actualizarPacienteQuery = "UPDATE PACIENTES SET nombreCompleto=@nombreCompleto, email=@email, sexo=@sexo, peso=@peso, altura=@altura, imc=@imc, calorias=@calorias, createdBy=@createdBy WHERE pacienteId=@pacienteId";
 
     return new Promise((resolve, reject) => {
         connectToServer()
@@ -350,6 +351,7 @@ const actualizarPaciente = (e, arguments) => {
                 request.addParameter("altura", TYPES.Int, arguments?.altura)
                 request.addParameter("imc", TYPES.Float, arguments?.imc)
                 request.addParameter("calorias", TYPES.Int, arguments?.calorias)
+                request.addParameter("createdBy", TYPES.VarChar, arguments?.createdBy)
 
                 console.log(request);
                 connection.execSql(request);
@@ -435,7 +437,7 @@ const traerDietas = (e, nutriologoId) => {
 }
 
 const crearDieta = (e, arguments) => {
-    const crearDietaQuery = "INSERT INTO DIETAS (nutriologoId, pacienteId, nombreDieta, fechaInicio) VALUES (@nutriologoId, @pacienteId, @nombreDieta, @fechaInicio)";
+    const crearDietaQuery = "INSERT INTO DIETAS (nutriologoId, pacienteId, nombreDieta, fechaInicio, createdBy) VALUES (@nutriologoId, @pacienteId, @nombreDieta, @fechaInicio, @createdBy)";
 
     return new Promise((resolve, reject) => {
         connectToServer()
@@ -453,6 +455,7 @@ const crearDieta = (e, arguments) => {
                 request.addParameter("pacienteId", TYPES.UniqueIdentifier, arguments?.pacienteId)
                 request.addParameter("nombreDieta", TYPES.VarChar, arguments?.nombreDieta)
                 request.addParameter("fechaInicio", TYPES.Date, arguments?.fechaInicio)
+                request.addParameter("createdBy", TYPES.VarChar, arguments?.createdBy)
 
                 connection.execSql(request);
             }).catch(err => reject(err))
@@ -460,7 +463,9 @@ const crearDieta = (e, arguments) => {
 }
 
 const actualizarDieta = (e, arguments) => {
-    const actualizarDietaQuery = "UPDATE DIETAS SET nutriologoId=@nutriologoId, pacienteId=@pacienteId, nombreDieta=@nombreDieta, fechaInicio=@fechaInicio WHERE dietaId=@dietaId";
+    const actualizarDietaQuery = "UPDATE DIETAS SET nutriologoId=@nutriologoId, pacienteId=@pacienteId, nombreDieta=@nombreDieta, fechaInicio=@fechaInicio, createdBy=@createdBy WHERE dietaId=@dietaId";
+
+    console.log(arguments);
 
     return new Promise((resolve, reject) => {
         connectToServer()
@@ -478,6 +483,8 @@ const actualizarDieta = (e, arguments) => {
                 request.addParameter("pacienteId", TYPES.UniqueIdentifier, arguments?.pacienteId)
                 request.addParameter("nombreDieta", TYPES.VarChar, arguments?.nombreDieta)
                 request.addParameter("fechaInicio", TYPES.Date, arguments?.fechaInicio)
+                request.addParameter("dietaId", TYPES.UniqueIdentifier, arguments?.dietaId)
+                request.addParameter("createdBy", TYPES.VarChar, arguments?.createdBy)
 
                 connection.execSql(request);
             })
@@ -558,7 +565,7 @@ const traerDiaDietas = (e, arguments) => {
 }
 
 const crearDiaDieta = (e, arguments) => {
-    const crearDiaDietaQuery = "INSERT INTO DIADIETA (dietaId, comidaId, ordenDia, ordenComida, nombreComida, gramos, calorias) VALUES (@dietaId, @comidaId, @ordenDia, @ordenComida, @nombreComida, @gramos, @calorias)";
+    const crearDiaDietaQuery = "INSERT INTO DIADIETA (dietaId, comidaId, ordenDia, ordenComida, nombreComida, gramos, calorias, createdBy) VALUES (@dietaId, @comidaId, @ordenDia, @ordenComida, @nombreComida, @gramos, @calorias, @createdBy)";
 
     return new Promise((resolve, reject) => {
         connectToServer()
@@ -579,6 +586,7 @@ const crearDiaDieta = (e, arguments) => {
                 request.addParameter("nombreComida", TYPES.VarChar, arguments?.nombreComida)
                 request.addParameter("gramos", TYPES.Float, arguments?.gramos)
                 request.addParameter("calorias", TYPES.Float, arguments?.calorias)
+                request.addParameter("createdBy", TYPES.VarChar, arguments?.createdBy)
 
                 connection.execSql(request);
             }).catch(err => reject(err))
@@ -586,7 +594,7 @@ const crearDiaDieta = (e, arguments) => {
 }
 
 const actualizarDiaDieta = (e, arguments) => {
-    const actualizarDiaDietaQuery = 'UPDATE DIETAS SET dietaId=@dietaId, comidaId=@comidaId, ordenDia=@ordenDia, ordenComida=@ordenComida, nombreComida=@nombreComida, gramos=@gramos, calorias=@calorias  WHERE diaDietaId=@diaDietaId'
+    const actualizarDiaDietaQuery = 'UPDATE DIETAS SET dietaId=@dietaId, comidaId=@comidaId, ordenDia=@ordenDia, ordenComida=@ordenComida, nombreComida=@nombreComida, gramos=@gramos, calorias=@calorias, createdBy=@createdBy WHERE diaDietaId=@diaDietaId'
 
     return new Promise((resolve, reject) => {
         connectToServer()
@@ -607,6 +615,7 @@ const actualizarDiaDieta = (e, arguments) => {
                 request.addParameter("nombreComida", TYPES.VarChar, arguments?.nombreComida)
                 request.addParameter("gramos", TYPES.Float, arguments?.gramos)
                 request.addParameter("calorias", TYPES.Float, arguments?.calorias)
+                request.addParameter("createdBy", TYPES.VarChar, arguments?.createdBy)
 
                 connection.execSql(request);
             }).catch(err => reject(err))
@@ -641,10 +650,8 @@ ipcMain.handle("CREARDIADIETA", crearDiaDieta);
 ipcMain.handle("ACTUALIZARDIADIETA", actualizarDiaDieta);
 ipcMain.handle("ELIMINARDIADIETA", eliminarDiaDieta);
 
-
-//TODO: Crear funcion que traiga las 3 tipos de bitacoras que existen
-const traerComidasInsertadas = (e, arguments) => {
-    const traerComidasInsertadasQuery = "SELECT * FROM COMIDASISERTADOS";
+const traerBitacoras = (e, arguments) => {
+    const traerComidasInsertadasQuery = "SELECT * FROM BITACORAS";
 
     return new Promise((resolve, reject) => {
         connectToServer()
@@ -679,4 +686,4 @@ const traerComidasInsertadas = (e, arguments) => {
     });
 }
 
-ipcMain.handle("TRAERCOMIDASINSERTADAS", traerComidasInsertadas);
+ipcMain.handle("TRAERBITACORAS", traerBitacoras);
