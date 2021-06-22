@@ -68,7 +68,7 @@ export function AddDiaComidaDialog({ open, onClose, orden, dietaId }) {
                     margin="dense"
                     id="gramos"
                     label="Gramos"
-                    type="text"
+                    type="number"
                     fullWidth
                     onChange={handleInputChange}
                 />
@@ -77,7 +77,7 @@ export function AddDiaComidaDialog({ open, onClose, orden, dietaId }) {
                     margin="dense"
                     id="calorias"
                     label="Calorias"
-                    type="text"
+                    type="number"
                     fullWidth
                     onChange={handleInputChange}
                 />

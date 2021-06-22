@@ -44,6 +44,15 @@ export function NewDietDialog({ open, onClose }) {
             <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Nueva dieta</DialogTitle>
                 <DialogContent>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="nombreDieta"
+                        label="Nombre de Dieta"
+                        type="text"
+                        fullWidth
+                        onChange={handleInputChange}
+                    />
                     <InputLabel id="pacienteLbl">Paciente</InputLabel>
                     <Select
                         id="pacienteId"
@@ -58,15 +67,6 @@ export function NewDietDialog({ open, onClose }) {
                             ))
                         }
                     </ Select>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="nombreDieta"
-                        label="Nombre de Dieta"
-                        type="text"
-                        fullWidth
-                        onChange={handleInputChange}
-                    />
                     <DatePicker
                         format="dd/MM/yyyy"
                         id="fechaInicio"

@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useForm } from "../../hooks/useForm";
+import { MenuItem } from "@material-ui/core";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -45,7 +46,6 @@ export function EditPatientDialog({ open, onClose, paciente }) {
                     value={formValues?.nombreCompleto}
                 />
                 <TextField
-                    autoFocus
                     margin="dense"
                     id="email"
                     label="Email"
@@ -55,51 +55,50 @@ export function EditPatientDialog({ open, onClose, paciente }) {
                     value={formValues?.email}
                 />
                 <TextField
-                    autoFocus
                     margin="dense"
                     id="sexo"
                     label="Sexo"
                     type="text"
                     fullWidth
+                    select
                     onChange={handleInputChange}
-                    value={formValues?.sexo}
-                />
+                    value={formValues?.sexo}>
+                    <MenuItem value="MASCULINO">Masculino</MenuItem>
+                    <MenuItem value="FEMENINO">Femenino</MenuItem>
+                    <MenuItem value="OTRO">Otro</MenuItem>
+                </TextField>
                 <TextField
-                    autoFocus
                     margin="dense"
                     id="peso"
                     label="Peso"
-                    type="text"
+                    type="number"
                     fullWidth
                     onChange={handleInputChange}
                     value={formValues?.peso}
                 />
                 <TextField
-                    autoFocus
                     margin="dense"
                     id="altura"
                     label="Altura"
-                    type="text"
+                    type="number"
                     fullWidth
                     onChange={handleInputChange}
                     value={formValues?.altura}
                 />
                 <TextField
-                    autoFocus
                     margin="dense"
                     id="imc"
                     label="IMC"
-                    type="text"
+                    type="number"
                     fullWidth
                     onChange={handleInputChange}
                     value={formValues?.imc}
                 />
                 <TextField
-                    autoFocus
                     margin="dense"
                     id="calorias"
                     label="Calorias"
-                    type="text"
+                    type="number"
                     fullWidth
                     onChange={handleInputChange}
                     value={formValues?.calorias}

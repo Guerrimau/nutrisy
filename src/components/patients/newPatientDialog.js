@@ -8,6 +8,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { PacientesContext } from '../../context/pacientes-context';
+import { MenuItem } from '@material-ui/core';
 
 export function NewPatientDialog({ open, onClose }) {
 
@@ -42,56 +43,54 @@ export function NewPatientDialog({ open, onClose }) {
                     onChange={handleInputChange}
                 />
                 <TextField
-                    autoFocus
                     margin="dense"
                     id="email"
                     label="Email"
-                    type="text"
+                    type="email"
                     fullWidth
                     onChange={handleInputChange}
                 />
                 <TextField
-                    autoFocus
                     margin="dense"
                     id="sexo"
                     label="Sexo"
                     type="text"
                     fullWidth
-                    onChange={handleInputChange}
-                />
+                    select
+                    onChange={handleInputChange}>
+                    <MenuItem value="MASCULINO">Masculino</MenuItem>
+                    <MenuItem value="FEMENINO">Femenino</MenuItem>
+                    <MenuItem value="OTRO">Otro</MenuItem>
+                </TextField>
                 <TextField
-                    autoFocus
                     margin="dense"
                     id="peso"
                     label="Peso"
-                    type="text"
+                    type="number"
                     fullWidth
                     onChange={handleInputChange}
                 />
                 <TextField
-                    autoFocus
                     margin="dense"
                     id="altura"
                     label="Altura"
-                    type="text"
+                    type="number"
                     fullWidth
                     onChange={handleInputChange}
                 />
                 <TextField
-                    autoFocus
                     margin="dense"
                     id="imc"
                     label="IMC"
-                    type="text"
+                    type="number"
                     fullWidth
                     onChange={handleInputChange}
                 />
                 <TextField
-                    autoFocus
                     margin="dense"
                     id="calorias"
                     label="Calorias"
-                    type="text"
+                    type="number"
                     fullWidth
                     onChange={handleInputChange}
                 />
