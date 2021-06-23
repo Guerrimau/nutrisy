@@ -63,7 +63,7 @@ const connectToServer = () => {
                 type: 'default',
                 options: {
                     userName: 'sa',
-                    password: 'Administrador123'
+                    password: '12345'
                 }
             },
             port: 1433,
